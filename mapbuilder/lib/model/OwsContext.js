@@ -246,7 +246,7 @@ function OwsContext(modelNode, parent) {
       service = service[0].toUpperCase();
     }
     var url;
-    if (_SARISSA_IS_OPERA) {
+    if (Sarissa._SARISSA_IS_OPERA) {
       url = feature.selectSingleNode("wmc:Server[@service='OGC:"+service+"']/wmc:OnlineResource").getAttributeNS("http://www.w3.org/1999/xlink","href");
       if (!url) {
         // fallback to default service

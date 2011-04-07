@@ -72,6 +72,7 @@ ul a {
   height: 40px;
 	margin-bottom: 5px;
 	vertical-align: bottom;
+	position: absolute;
 }
 
 #header .left {
@@ -91,7 +92,6 @@ ul a {
 position: absolute;
 left: 0px;
 top: 31px;
-bottom: 0px;
 overflow: auto;
 	width: 130px;
 	font-family: Verdana, geneva, arial, sans-serif;
@@ -129,10 +129,13 @@ margin: 0px;
 		padding: 5px;
 
 
-		margin-left: 130px;
+		left: 130px;
 		right: 1px;
-		bottom: 1px;
+		bottom: 60px;
+		top: 31px;
 		background-color: white;
+		position: absolute;
+		overflow: auto;
 display: block;
 }
 
@@ -183,8 +186,10 @@ display: block;
 	width: 99%;
 margin:0px;
 	bottom: 0px;
+	left: 0px;
 	
 	font-size: 9pt;
+	position: absolute;
 }
 
 

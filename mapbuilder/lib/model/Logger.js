@@ -58,13 +58,13 @@ function Logger(modelNode, parent) {
   this.saveLog = function() {
     if (config.serializeUrl) {
       var tempDoc = postLoad(config.serializeUrl,logger.doc);
-      if (!Sarissa._SARISSA_IS_SAFARI) {
+      if (!Sarissa._SARISSA_IS_SAFARI_OLD) {
         tempDoc.setProperty("SelectionLanguage", "XPath");
         Sarissa.setXpathNamespaces(tempDoc, "xmlns:xlink='http://www.w3.org/1999/xlink'");
       }
       var onlineResource = tempDoc.selectSingleNode("//OnlineResource");
       var fileUrl;
-      if (_SARISSA_IS_OPERA) {
+      if (Sarissa._SARISSA_IS_OPERA) {
         fileUrl = onlineResource.getAttributeNS("http://www.w3.org/1999/xlink","href");
       } else {
         fileUrl = onlineResource.getAttribute("xlink:href");

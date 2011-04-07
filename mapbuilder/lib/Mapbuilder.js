@@ -68,26 +68,31 @@ function Mapbuilder() {
    * Called periodically and moves onto the next loadState when this round of
    * scripts have loaded.
    * For IE clients, object.readyState is used to check if scripts are loaded.
-   * Mozilla works fine without this function - I think it is single threaded.
+   * For other clients, script.onLoad is used to check if scripts are loaded.
+   * Mozilla browsers older than FF4.0 and Opera work fine without this function
+   * - I think it is single threaded.
    */
   this.checkScriptsLoaded=function() {
-    if (document.readyState && navigator.userAgent.toLowerCase().indexOf("ie") > -1) {
-      // IE client
-
-      // Scripts are removed from array when they have loaded
-      while(this.loadingScripts.length>0
-        &&(this.loadingScripts[0].readyState=="loaded"
-          ||this.loadingScripts[0].readyState=="complete"
-          ||this.loadingScripts[0].readyState==null))
-      {
-        this.loadingScripts.shift();
+    if (document.readyState) {
+      if (navigator.userAgent.toLowerCase().indexOf("ie") > -1) {
+        // IE client
+  
+        // Scripts are removed from array when they have loaded
+        while(this.loadingScripts.length>0
+          &&(this.loadingScripts[0].readyState=="loaded"
+            ||this.loadingScripts[0].readyState=="complete"
+            ||this.loadingScripts[0].readyState==null))
+        {
+          this.loadingScripts.shift();
+        }
       }
+      // Scripts are removed from array when they have loaded via callback (see loadScript)
       if (this.loadingScripts.length==0 && this.orderedScripts.length == 0){
         this.setLoadState(this.loadState+1);
       }
     }
     else{
-      // Mozilla client
+      // Mozilla browsers older than FF3.6
       if(this.loadState==MB_LOAD_CORE && config!=null){
         // Config has finished loading
         this.setLoadState(MB_LOAD_CONFIG);
@@ -117,16 +122,18 @@ function Mapbuilder() {
         this.loadScript(baseDir+"/util/Listener.js");
         this.loadScript(baseDir+"/model/ModelBase.js");
         this.loadScript(baseDir+"/model/Config.js");
-        // from now on, scripts can be loaded in any order
-        this.loadOrdered = false;
+        // only for Mozilla browsers older than FF3.6 and IE:
+        if (document.readyState==null || navigator.userAgent.toLowerCase().indexOf("ie") > -1) {
+          // from now on, scripts can be loaded in any order
+          this.loadOrdered = false;
+        }
         break;
       case MB_LOAD_CONFIG:
-        if (document.readyState && navigator.userAgent.toLowerCase().indexOf("ie") > -1) {
-          // IE
+        if (document.readyState) {
           config=new Config(mbConfigUrl);
           config.loadConfigScripts();
         }else{
-          // Mozilla
+          // Mozilla browsers older than FF3.6
           this.setLoadState(MB_LOADED);
         }
         break;
@@ -165,27 +172,64 @@ function Mapbuilder() {
       script.id = url;
       script.defer = false;   //not sure of effect of this?
       script.type = "text/javascript";
-      if (document.readyState && navigator.userAgent.toLowerCase().indexOf("ie") > -1 && this.loadOrdered == true) {
-        // in IE, mark the script as ordered
-        this.orderedScripts.push(script);
+      if (document.readyState && this.loadOrdered == true) {
+        // mark the script as ordered
+        // check if the script is already loading and load it almost immediately
+        if (!this.checkScriptLoading(script, this.orderedScripts)) {
+          this.orderedScripts.push(script);
+        }
         if (!this.scriptLoader) {
-          this.scriptLoader = window.setInterval('mapbuilder.loadNextScript()', 50);
+          this.scriptLoader = window.setInterval('mapbuilder.loadNextScript()', 5);
         }
       } else {
-        // add to dom tree, except if we are using IE and want to load ordered
+        // add to dom tree, except if we want to load ordered
         document.getElementsByTagName('head')[0].appendChild(script);
-      }
-      if (document.readyState && navigator.userAgent.toLowerCase().indexOf("ie") > -1) {
-        // this is only needed for IE
-        this.loadingScripts.push(script);
+        if (document.readyState) {
+          // this is only needed for actual browsers
+          if (this.checkScriptLoading(script, this.loadingScripts) === false) {
+            this.loadingScripts.push(script);
+          }
+          // this is not needed for IE
+          if (navigator.userAgent.toLowerCase().indexOf("ie") == -1) {
+            // add the onLoad handler
+            var objRef = this;
+            script.onload = function(){
+              for (var i=0; i<objRef.loadingScripts.length; i++) {
+                if (script == objRef.loadingScripts[i]) {
+                  objRef.loadingScripts.splice(i, 1);
+                  break;
+                }
+              }
+            };
+          }
+        }
       }
     }
   }
-   
+
   /**
-   * loads one script after another - only for IE. This function is run in a
-   * 50ms interval and clears its interval if there are no more scripts to
-   * load. It actually loads the first script from the orderedScripts array.
+   * check if a script is being loaded. This function checks via the id of the
+   * script if a script is already in the loadingScripts (orderedScripts or
+   * loadingScripts) array.
+   * @param script The script to check.
+   * @param loadingScripts The array the script may be in.
+   */
+  this.checkScriptLoading = function(script, loadingScripts) {
+    var scriptLoading = false;
+    for (var i=0; i<loadingScripts.length; i++) {
+      if (script.id == loadingScripts[i].id) {
+        scriptLoading = true;
+        break;
+      }
+    }
+    return scriptLoading;
+  }
+
+  /**
+   * loads one script after another. This function is run in a
+   * 50ms interval and clears its interval if there are no more
+   * scripts to load. It actually loads the first script from the
+   * orderedScripts array.
    */
   this.loadNextScript = function() {
     if (this.orderedScripts.length == 0) {
@@ -201,21 +245,35 @@ function Mapbuilder() {
   }
   
   /**
-   * starts script loading by adding the script node to the dom tree - IE only.
-   * This function adds a readyState handler to the script node.
+   * starts script loading by adding the script node to the dom tree.
+   * This function adds a readyState or onLoad handler to the script node.
    */
   this.doLoadScript = function(script) {
     var objRef = this;
-    script.onreadystatechange = function(){objRef.checkScriptState(this)};
+    if (navigator.userAgent.toLowerCase().indexOf("ie") > -1) {
+      // IE
+      script.onreadystatechange = function(){objRef.checkScriptState(this)};
+    } else {
+      script.onload = function(){objRef.checkScriptState(this)};
+    }
     document.getElementsByTagName('head')[0].appendChild(script);
   }
   
   /**
-   * readyState handler for scripts - IE only. This will remove the script from
+   * readyState / onLoad handler for scripts. This will remove the script from
    * the array of scripts that have still to be loaded.
    */
   this.checkScriptState = function(script) {
-    if (script.readyState == "loaded" || script.readyState == "complete") {
+    var scriptLoaded = false;
+    if (document.readyState && navigator.userAgent.toLowerCase().indexOf("ie") > -1) {
+      // IE
+      if (script.readyState == "loaded" || script.readyState == "complete") {
+        scriptLoaded = true;
+      }
+    } else if (document.readyState) {
+      scriptLoaded = true;
+    }
+    if (scriptLoaded === true) {
       for (var i=0; i<this.orderedScripts.length; i++) {
         if (script == this.orderedScripts[i]) {
           this.orderedScripts.splice(i, 1);
@@ -267,7 +325,7 @@ function Mapbuilder() {
   this.setLoadState(MB_LOAD_CORE);
 
   // Start a timer which periodically calls checkScriptsLoaded().
-  this.scriptsTimer=window.setInterval('mapbuilder.checkScriptsLoaded()',100);
+  this.scriptsTimer=window.setInterval('mapbuilder.checkScriptsLoaded()',10);
 }
 
 /**

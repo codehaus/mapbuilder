@@ -209,7 +209,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     node.style.width = objRef.model.getWindowWidth()+"px";
     node.style.height = objRef.model.getWindowHeight()+"px";
   }
-  if (_SARISSA_IS_OPERA) {
+  if (Sarissa._SARISSA_IS_OPERA) {
     //do not allow a height of 0 (causes division by zero in further OL initialization)
     if (node.clientHeight == 0) {
       if (node.style.height.length > 1 && node.style.height.contains("%")) {
@@ -663,12 +663,12 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
     var href=Mapbuilder.getProperty(layer, "wmc:Server/wmc:OnlineResource/@xlink:href", "");
   }
   else {
-     if(_SARISSA_IS_SAFARI){
-     var nodehref=layer.selectSingleNode("wmc:Server/wmc:OnlineResource");
-     var href=nodehref.attributes[1].nodeValue;
+     if (Sarissa._SARISSA_IS_SAFARI) {
+       var nodehref=layer.selectSingleNode("wmc:Server/wmc:OnlineResource");
+       var href=nodehref.attributes[1].nodeValue;
      }
    else{
-     if(_SARISSA_IS_OPERA){
+     if(Sarissa._SARISSA_IS_OPERA){
        var href=layer.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttributeNS ("http://www.w3.org/1999/xlink","href");// for opera
      }else{
        var href=layer.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");

@@ -104,12 +104,16 @@ function WidgetBaseXSL(widgetNode,model) {
       if( tempNode.firstChild != null ) { //Could be null!
         // check if we should use the fist child or the next sibling
         // (if we have a stylesheet that outputs an xml declaration, we have a
-        // text node containing a linke break above the first node of the
-        // stylesheet output content)
-        // This is needed for FF3 (MAP-548)
+        // text node containing a comment and a line break above the first node 
+        // of the stylesheet output content)
         var ctNode = tempNode.firstChild;
+        // This is needed for FF4
+        if (ctNode.nodeType == 8) {
+          ctNode = ctNode.nextSibling;
+        }
+        // This is needed for FF3+ (MAP-548)
         if (ctNode.nodeType == 3) {
-          ctNode = ctNode.nextSibling;   
+          ctNode = ctNode.nextSibling;
         }
         ctNode.setAttribute("id", objRef.outputNodeId);
 

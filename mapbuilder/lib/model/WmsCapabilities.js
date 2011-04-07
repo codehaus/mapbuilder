@@ -48,7 +48,7 @@ function WmsCapabilities(modelNode, parent) {
       } else {
         xpath += "/DCPType/HTTP/Get/OnlineResource";
       }
-      if (_SARISSA_IS_OPERA) {
+      if (Sarissa._SARISSA_IS_OPERA) {
         return this.doc.selectSingleNode(xpath).getAttributeNS("http://www.w3.org/1999/xlink","href");
       } else {
         return this.doc.selectSingleNode(xpath).getAttribute("xlink:href");
@@ -81,7 +81,7 @@ function WmsCapabilities(modelNode, parent) {
     if (version == "1.0.0") {
       var xpath = "/WMT_MS_Capabilities/Capability/Request/Map/Format";  //strip of "Get" part of request name
       var node = this.doc.selectSingleNode(xpath);
-      if(_SARISSA_IS_IE) {
+      if(Sarissa._SARISSA_IS_IE) {
         return "image/"+node.firstChild.baseName.toLowerCase();
       }
       else {

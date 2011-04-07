@@ -28,24 +28,23 @@ function Config(url) {
   this.doc = Sarissa.getDomDocument();
   this.doc.async = false;
   this.doc.validateOnParse=false;  //IE6 SP2 parsing bug
-  if(_SARISSA_IS_SAFARI)
-  {
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.open("GET", url, false);
-  xmlhttp.send(null);
-  this.doc = xmlhttp.responseXML;
-  }else
-   {
-  this.doc.load(url);
+  if (Sarissa._SARISSA_IS_SAFARI) {
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("GET", url, false);
+    xmlhttp.send(null);
+    this.doc = xmlhttp.responseXML;
+  } else {
+    this.doc.load(url);
   }
   if (Sarissa.getParseErrorText(this.doc) != Sarissa.PARSED_OK){
     alert("error loading config document: " + url );//+ " - " + Sarissa.getParseErrorText(this.doc) );
   }
   this.url = url;
   this.namespace = "xmlns:mb='"+mbNsUrl+"'";
-  if(! _SARISSA_IS_SAFARI ){ 
-  this.doc.setProperty("SelectionLanguage", "XPath");
-  Sarissa.setXpathNamespaces(this.doc, this.namespace);}
+  if (!Sarissa._SARISSA_IS_SAFARI_OLD) {
+    this.doc.setProperty("SelectionLanguage", "XPath");
+    Sarissa.setXpathNamespaces(this.doc, this.namespace);
+  }
 
 /**
  * Set the serializeUrl and proxyUrl values from a global configuration document
@@ -54,21 +53,20 @@ function Config(url) {
   var configDoc = Sarissa.getDomDocument();
   configDoc.async = false;
   configDoc.validateOnParse=false;  //IE6 SP2 parsing bug
-  if(_SARISSA_IS_SAFARI){
+  if (Sarissa._SARISSA_IS_SAFARI) {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open("GET", baseDir+"/"+mbServerConfig, false);
     xmlhttp.send(null);
     configDoc = xmlhttp.responseXML;
-  }else
-   {
+  } else {
     configDoc.load(baseDir+"/"+mbServerConfig);
-   }
+  }
   if (Sarissa.getParseErrorText(configDoc) != Sarissa.PARSED_OK) {
     //alert("error loading server config document: " + baseDir+"/"+mbServerConfig );
   } else {
-  if(! _SARISSA_IS_SAFARI ){
-    configDoc.setProperty("SelectionLanguage", "XPath");
-    Sarissa.setXpathNamespaces(configDoc, this.namespace);
+    if (!Sarissa._SARISSA_IS_SAFARI_OLD) {
+      configDoc.setProperty("SelectionLanguage", "XPath");
+      Sarissa.setXpathNamespaces(configDoc, this.namespace);
     }
     this.proxyUrl = Mapbuilder.getProperty(configDoc, "/mb:MapbuilderConfig/mb:proxyUrl", this.proxyUrl);
     this.serializeUrl = Mapbuilder.getProperty(configDoc, "/mb:MapbuilderConfig/mb:serializeUrl", this.serializeUrl);
@@ -146,13 +144,12 @@ function Config(url) {
       widgetText = (new DOMParser()).parseFromString(xmlString, "text/xml");
     }
     else {
-      if (_SARISSA_IS_SAFARI) {
+      if (Sarissa._SARISSA_IS_SAFARI) {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.open("GET", widgetTextUrl, false);
         xmlhttp.send(null);
         widgetText = xmlhttp.responseXML;
-      }
-      else {
+      } else {
         try {
           widgetText.load(widgetTextUrl);
         }
@@ -169,7 +166,7 @@ function Config(url) {
         alert(errMsg + "\nFalling back on default language=\"" + config.defaultLang + "\"");
         config.lang = config.defaultLang;
         widgetTextUrl = dir + "/" + config.lang + widgetFile;
-        if(_SARISSA_IS_SAFARI) {
+        if(Sarissa._SARISSA_IS_SAFARI) {
           var xmlhttp = new XMLHttpRequest();
           xmlhttp.open("GET", widgetTextUrl, false);
           xmlhttp.send(null);
@@ -183,7 +180,7 @@ function Config(url) {
         }
       }
     }
-    if(! _SARISSA_IS_SAFARI) {
+    if(!Sarissa._SARISSA_IS_SAFARI_OLD) {
       widgetText.setProperty("SelectionLanguage", "XPath");
       Sarissa.setXpathNamespaces(widgetText, config.namespace);
     }
@@ -257,11 +254,9 @@ function Config(url) {
 }
 
 /**
-* Initialise the global config object for Mozilla browsers.
+* Initialise the global config object for Mozilla browsers older than FF3.6.
 */
-if (navigator.userAgent.toLowerCase().indexOf("ie") > -1) {
-  // IE
-} else { 
+if (document.readyState==null){
   // Mozilla
   mapbuilder.setLoadState(MB_LOAD_CONFIG);
   config=new Config(mbConfigUrl);
