@@ -223,7 +223,7 @@ function Context(modelNode, parent) {
    * @return URL for the GetMap request
    */
   this.getServerUrl = function(requestName, method, feature) {
-    if (_SARISSA_IS_OPERA) {
+    if (Sarissa._SARISSA_IS_OPERA) {
       return feature.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttributeNS("http://www.w3.org/1999/xlink","href");
     } else {
       return feature.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");

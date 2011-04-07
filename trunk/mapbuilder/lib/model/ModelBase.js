@@ -277,10 +277,10 @@ function ModelBase(modelNode, parentModel) {
   this.finishLoading = function() {
     // the following two lines are needed for IE; set the namespace for selection
     if(this.doc){
-     if(! _SARISSA_IS_SAFARI){
-      this.doc.setProperty("SelectionLanguage", "XPath");
-      if(this.namespace) Sarissa.setXpathNamespaces(this.doc, this.namespace);
-		}
+      if (!Sarissa._SARISSA_IS_SAFARI_OLD) {
+        this.doc.setProperty("SelectionLanguage", "XPath");
+        if(this.namespace) Sarissa.setXpathNamespaces(this.doc, this.namespace);
+      }
 
       // Show the newly loaded XML document
       if(this.debug) mbDebugMessage(this, "Loading Model:"+this.id+" "+(new XMLSerializer()).serializeToString(this.doc));
@@ -307,7 +307,7 @@ function ModelBase(modelNode, parentModel) {
     // assign it an id
     if (objRef.template) {
       var parentNode = objRef.modelNode.parentNode;
-      if(_SARISSA_IS_IE) {
+      if(Sarissa._SARISSA_IS_IE) {
         var newConfigNode = parentNode.appendChild(modelNode.cloneNode(true));
       }
       else {
@@ -351,13 +351,13 @@ function ModelBase(modelNode, parentModel) {
   this.saveModel = function(objRef) {
     if (config.serializeUrl) {
       var response = postGetLoad(config.serializeUrl, objRef.doc ,"text/xml","","");
-       if(! _SARISSA_IS_SAFARI){
-      response.setProperty("SelectionLanguage", "XPath");
-      Sarissa.setXpathNamespaces(response, "xmlns:xlink='http://www.w3.org/1999/xlink'");
+      if (!Sarissa._SARISSA_IS_SAFARI_OLD) {
+        response.setProperty("SelectionLanguage", "XPath");
+        Sarissa.setXpathNamespaces(response, "xmlns:xlink='http://www.w3.org/1999/xlink'");
       }
       var onlineResource = response.selectSingleNode("//OnlineResource");
       var fileUrl;
-      if (_SARISSA_IS_OPERA) {
+      if (Sarissa._SARISSA_IS_OPERA) {
         fileUrl = onlineResource.getAttributeNS("http://www.w3.org/1999/xlink","href");
       } else {
         fileUrl = onlineResource.getAttribute("xlink:href");

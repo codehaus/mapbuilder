@@ -49,7 +49,7 @@ function XslProcessor(xslUrl,docNSUri) {
     this.xslDom = (new DOMParser()).parseFromString(xmlString, "text/xml");
   }
   else {
-    if(_SARISSA_IS_SAFARI){
+    if(Sarissa._SARISSA_IS_SAFARI){
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.open("GET", xslUrl, false);
         xmlhttp.send(null);
@@ -77,13 +77,13 @@ function XslProcessor(xslUrl,docNSUri) {
       // transform and build a web page with result
       //MAP-427 Quick hack to transform an XMLElement to XMLDocument in IE
      
-      if (_SARISSA_IS_IE){
+      if (Sarissa._SARISSA_IS_IE){
         var str = (new XMLSerializer()).serializeToString(xmlNode);
         var xmlNode = (new DOMParser()).parseFromString(str, "text/xml");
     }
       var newDoc = this.transformNodeToObject(xmlNode);
       var s = (new XMLSerializer()).serializeToString(newDoc);
-      if(_SARISSA_IS_OPERA)
+      if(Sarissa._SARISSA_IS_OPERA)
         s =  s.replace(/.*\?\>/,"");//hack for opera to delete <?xml ... ?>
       return s;
     } catch(e){
@@ -99,7 +99,7 @@ function XslProcessor(xslUrl,docNSUri) {
    * @return a DOM document object
    */
   this.transformNodeToObject=function(xmlNode) {
-    if(_SARISSA_IS_SAFARI){
+    if(Sarissa._SARISSA_IS_SAFARI_OLD){
       var oResult = new DOMParser().parseFromString("<xsltresult></xsltresult>", "text/xml");
       var newFragment = this.processor.transformToFragment(xmlNode, oResult);
       var str = (new XMLSerializer()).serializeToString(newFragment);
@@ -139,7 +139,7 @@ function postLoad(sUri, docToSend, contentType ) {
    //alert("sending:"+docToSend.xml);
    xmlHttp.send( docToSend );
 /*
-   if (_SARISSA_IS_IE) {
+   if (Sarissa._SARISSA_IS_IE) {
 alert("before");
     xmlHttp.status = xmlHttp.Status;
 alert("after");
@@ -230,7 +230,7 @@ function getProxyPlusUrl(url) {
    * @return element in the document with the specified namespace
    */
 function createElementWithNS(doc,name,nsUri) {
-  if (_SARISSA_IS_IE) {
+  if (Sarissa._SARISSA_IS_IE) {
     return doc.createNode(1, name, nsUri);
   } else {
     return doc.createElementNS(nsUri,name);
@@ -303,7 +303,7 @@ function leadingZeros(num,digits) {
 // PL-BRGM
 // Add oldImage in parameter
 function fixPNG(myImage,myId,oldImage) {
-  if (_SARISSA_IS_IE) {
+  if (Sarissa._SARISSA_IS_IE) {
     // PL - BRGM
     //opacity of the image
     if(oldImage) {
@@ -678,7 +678,7 @@ function sld2UrlParam(node) {
     var name = node.selectSingleNode("wmc:Name");
     if(sld) {
       if(sld.selectSingleNode("wmc:OnlineResource")) {	
-        if (_SARISSA_IS_OPERA) {
+        if (Sarissa._SARISSA_IS_OPERA) {
           params.sld=sld.selectSingleNode("wmc:OnlineResource").getAttributeNS("http://www.w3.org/1999/xlink","href");
         } else {
           params.sld=sld.selectSingleNode("wmc:OnlineResource").getAttribute("xlink:href");
