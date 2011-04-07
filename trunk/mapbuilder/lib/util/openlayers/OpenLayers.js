@@ -455,7 +455,7 @@ var OpenLayers = {
 /**
  * Constant: VERSION_NUMBER
  */
-OpenLayers.VERSION_NUMBER="OpenLayers 2.10 -- $Revision$";
+OpenLayers.VERSION_NUMBER="OpenLayers 2.10 -- rc2 with Rev. 11001 -- $Revision$";
 /* ======================================================================
     OpenLayers/BaseTypes.js
    ====================================================================== */
@@ -19839,6 +19839,7 @@ OpenLayers.Renderer.VML = OpenLayers.Class(OpenLayers.Renderer.Elements, {
 
         if (node._geometryClass === "OpenLayers.Geometry.Point") {
             if (style.externalGraphic) {
+                options.isFilled = true;
                 if (style.graphicTitle) {
                     node.title=style.graphicTitle;
                 } 
@@ -34324,7 +34325,7 @@ OpenLayers.Marker.Box = OpenLayers.Class(OpenLayers.Marker, {
     * sz - {<OpenLayers.Size>} 
     * 
     * Returns: 
-    * {DOMElement} A new DOM Image with this marker´s icon set at the 
+    * {DOMElement} A new DOM Image with this markers icon set at the 
     *         location passed-in
     */
     draw: function(px, sz) {
