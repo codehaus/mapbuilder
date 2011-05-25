@@ -49,6 +49,8 @@
       <longitude>Länge: </longitude>
       <xcoord>x: </xcoord>
       <ycoord>y: </ycoord>
+      <tooltipPan>Kartenausschnitt verschieben</tooltipPan>
+      <tooltipZoom>Kartenausschnitt vergrößeren/verkleinern</tooltipZoom>
     </CursorTrack>
     
     <DeleteFeature>

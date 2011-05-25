@@ -49,6 +49,8 @@
       <longitude>lon: </longitude>
       <xcoord>x: </xcoord>
       <ycoord>y: </ycoord>
+      <tooltipPan>Pan</tooltipPan>
+      <tooltipZoom>Zoom</tooltipZoom>
     </CursorTrack>
     
     <DeleteFeature>
