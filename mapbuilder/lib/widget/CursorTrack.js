@@ -37,6 +37,11 @@ function CursorTrack(widgetNode, model) {
   this.formName = "CursorTrackForm_" + mbIds.getId();
   this.stylesheet.setParameter("formName", this.formName);
 
+  this.showPanButton = Mapbuilder.parseBoolean(this.getProperty("mb:showPanButton", false)); // show a pan button
+  this.showZoomButton = Mapbuilder.parseBoolean(this.getProperty("mb:showZoomButton", false)); // show a zoom button
+  this.zoomLevel = this.getProperty("mb:zoomLevel", null); // level for zooming (used first)
+  this.zoomScale = this.getProperty("mb:zoomScale", null); // scale for zooming (used second)
+
 
   /**
    * Add mouse event listeners to the map object in the model.
@@ -297,5 +302,118 @@ function CursorTrack(widgetNode, model) {
     }
 
     return coordinatehemi;
+  }
+
+  /**
+   * Handles submission of the form (via javascript in an <a> tag or onsubmit handler)
+   */
+  this.submitForm = function() {
+    this.doPan();
+    return false;   //prevent the form from actually being submitted
+  }
+
+  /**
+   * handles keypress events to filter out everything except "enter".  
+   * Pressing the "enter" key will trigger a form submit
+   * @param event  the event object passed in for Mozilla; IE uses window.event
+   */
+  this.handleKeyPress = function(event) {
+    var keycode;
+    var target;
+    if (event){
+      //Mozilla
+      keycode=event.which;
+      target=event.currentTarget;
+    }else{
+      //IE
+      keycode=window.event.keyCode;
+      target=window.event.srcElement.form;
+    }
+
+    if (keycode == 13) {    //enter key
+      target.parentWidget.submitForm();
+      return false
+    }
+  }
+
+  /**
+   * Refreshes the form and event handlers when this widget is painted.
+   * @param objRef Pointer to this CurorTrack object.
+   */
+  this.postPaint = function(objRef) {
+    var coordForm = document.getElementById(objRef.formName);
+    coordForm.parentWidget = objRef;
+    coordForm.onkeypress = objRef.handleKeyPress;
+  }
+
+  /**
+   * Pan to the actual coordinate
+   */
+  this.doPan = function() {
+    var lonlat = this.getLonLat();
+    if (lonlat) {
+      this.model.map.panTo(lonlat);
+    }
+  }
+
+  /**
+   * Zoom to the actual coordinate. First use zoomLevel, then zoomScale.
+   */
+  this.doZoom = function() {
+    var lonlat = this.getLonLat();
+    if (lonlat) {
+      if (this.zoomLevel) {
+        this.model.map.setCenter(lonlat, this.zoomLevel);
+      } else if (this.zoomScale) {
+        var res = OpenLayers.Util.getResolutionFromScale(this.zoomScale, this.model.map.baseLayer.units);
+        var size = this.model.map.getSize();
+        var w_deg = size.w * res;
+        var h_deg = size.h * res;
+        var center = this.model.map.getCenter();
+        var extent = new OpenLayers.Bounds(center.lon - w_deg / 2,
+                                           center.lat - h_deg / 2,
+                                           center.lon + w_deg / 2,
+                                           center.lat + h_deg / 2);
+        this.model.map.setCenter(lonlat, this.model.map.getZoomForExtent(extent));
+      }
+    }
+  }
+
+  /**
+   * Get the LonLat representation of the actual coordinate
+   * @return OpenLayers.LonLat
+   */
+  this.getLonLat = function() {
+    var coordForm = document.getElementById(this.formName);
+    var lonlat = null;
+    if (this.showPx) {
+      if (coordForm.px && coordForm.py)
+        if (coordForm.px.value.length >0 && coordForm.py.value.length > 0)
+          lonlat = this.model.map.getLonLatFromPixel(new OpenLayers.Pixel(coordForm.px.value, coordForm.py.value));
+        else if (coordForm.px.value.length >0)
+          lonlat = this.model.map.getLonLatFromPixel(new OpenLayers.Pixel(coordForm.px.value, 0));
+        else if (coordForm.py.value.length >0)
+          lonlat = this.model.map.getLonLatFromPixel(new OpenLayers.Pixel(0, coordForm.py.value));
+    }
+    if (this.showXY) {
+      if (coordForm.x && coordForm.y)
+        if (coordForm.x.value.length > 0 && coordForm.y.value.length > 0)
+          lonlat = new OpenLayers.LonLat(coordForm.x.value, coordForm.y.value);
+        else if (coordForm.x.value.length >0)
+          lonlat = new OpenLayers.LonLat(coordForm.x.value, 0);
+        else if (coordForm.y.value.length >0)
+          lonlat = new OpenLayers.LonLat(0, coordForm.y.value);
+    }
+    if (this.showLatLong) {
+      if (coordForm.longitude && coordForm.latitude) 
+        if (coordForm.longitude.value.length > 0 && coordForm.latitude.value.length > 0) 
+          lonlat = new OpenLayers.LonLat(coordForm.longitude.value, coordForm.latitude.value);
+        else if (coordForm.longitude.value.length >0)
+          lonlat = new OpenLayers.LonLat(coordForm.longitude.value, 0);
+        else if (coordForm.latitude.value.length >0)
+          lonlat = new OpenLayers.LonLat(0, coordForm.latitude.value);
+    }
+    // TODO support this.showDMS, this.showDM and this.showMGRS
+    return lonlat;
   }
 }
