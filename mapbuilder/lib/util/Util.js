@@ -826,7 +826,9 @@ function getNodeValue(sResult){
 }
 
 /**
- * Convenience method that is used to parse dom nodes, including a fix for bug MAP-487 by Markus
+ * Convenience method that is used to parse dom nodes, including a fix for bug MAP-487 by Markus.
+ * Additionally considers entries of the config's widgetText (first with id,
+ * then without), like in WidgetBaseXSL.js and ButtonBase.js.
  * @param domNode node to find the property in
  * @param propertyName string of the property name (including namespace prefix)
  * @param defaultValue value to return if property is not found (null by default)
@@ -834,7 +836,38 @@ function getNodeValue(sResult){
  */
 Mapbuilder.getProperty = function(domNode, propertyName, defaultValue) {
   if (typeof defaultValue == "undefined") { defaultValue = null; }
-  var property = domNode.selectSingleNode(propertyName);
+
+  var property = null;
+  // Set widget text value as parameters for propertyNames containing
+  // mb: (another namespace like wmc raises XPath validation error code 51)
+  if (config && config.widgetText && propertyName && propertyName.contains("mb:")) {
+    try {
+      // first set the text values of the widget with an id specified
+      var textNodeXpath = "/mb:WidgetText/mb:widgets/mb:" + domNode.nodeName + "[@id='" + defaultValue + "']";
+      var textParam = config.widgetText.selectSingleNode(textNodeXpath+"/" + propertyName);
+      if (textParam) {
+        property = getNodeValue(textParam);
+      }
+      // then the text values of the widget without an id
+      if (!property) {
+        textNodeXpath = "/mb:WidgetText/mb:widgets/mb:" + domNode.nodeName + "[not(@id)]";
+        textParam = config.widgetText.selectSingleNode(textNodeXpath+"/" + propertyName);
+        if (textParam) {
+          property = getNodeValue(textParam);
+        }
+      }
+    } catch (e) {
+      alert("error at " + domNode.nodeName + " with propertyName=" 
+        + propertyName + " and defautlValue=" + defaultValue + ": " + e)
+    }
+    // finally the text values of the domNode (fallback)
+    if (!property) {
+      property = domNode.selectSingleNode(propertyName);
+    }
+  } else {
+    property = domNode.selectSingleNode(propertyName);
+  }
+
   if(property) {
     if (REGEX_NAMESPACE.test(property.nodeName)) { var value = getNodeValue(property); value = value.replace(/\s/g, ""); value = value.replace(/xmlns/g, " xmlns"); value = value.replace(/\s/, ""); return value; }
     return getNodeValue(property);
