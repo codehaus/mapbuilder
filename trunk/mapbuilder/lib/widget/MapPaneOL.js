@@ -349,21 +349,51 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
           if(maxExtent) baseLayerOptions.maxExtent=maxExtent;
           //check if we have spherical projection
           var sphericalMercator = (objRef.model.getSRS()=='EPSG:900913')?true:false;
+          var numZoomLevels = 20;
           //check if we have a layertype
           switch(baseLayerType){
             case "aerial":
             case "satellite":            
-              baseLayerType=G_SATELLITE_MAP;
+              if (typeof G_SATELLITE_MAP != "undefined") {
+                baseLayerType=G_SATELLITE_MAP;
+              } else if (typeof google != "undefined" && typeof google.maps != "undefined" && typeof google.maps.MapTypeId != "undefined"&& typeof google.maps.MapTypeId.SATELLITE != "undefined") {
+                baseLayerType=google.maps.MapTypeId.SATELLITE;
+              } else {
+                baseLayerType="satellite";
+              }
+              numZoomLevels = 22;
             break;
             case "road":
             case "normal":            
-              baseLayerType=G_NORMAL_MAP;
+               // the default
+              if (typeof G_NORMAL_MAP != "undefined") {
+                baseLayerType=G_NORMAL_MAP;
+              } else if (typeof google != "undefined" && typeof google.maps != "undefined" && typeof google.maps.MapTypeId != "undefined"&& typeof google.maps.MapTypeId.TERRAIN != "undefined") {
+                baseLayerType="";
+              } else {
+                baseLayerType="";
+              }
+            break;
+            case "terrain":
+              if (typeof G_HYBRID_MAP != "undefined") {
+                baseLayerType=G_HYBRID_MAP; // use hybrid as terrain
+              } else if (typeof google != "undefined" && typeof google.maps != "undefined" && typeof google.maps.MapTypeId != "undefined"&& typeof google.maps.MapTypeId.TERRAIN != "undefined") {
+                baseLayerType=google.maps.MapTypeId.TERRAIN;
+              } else {
+                baseLayerType="terrain";
+              }
             break;
             default:
-              baseLayerType=G_HYBRID_MAP;
+              if (typeof G_HYBRID_MAP != "undefined") {
+                baseLayerType=G_HYBRID_MAP;
+              } else if (typeof google != "undefined" && typeof google.maps != "undefined" && typeof google.maps.MapTypeId != "undefined"&& typeof google.maps.MapTypeId.HYBRID != "undefined") {
+                baseLayerType=google.maps.MapTypeId.HYBRID;
+              } else {
+                baseLayerType="hybrid";
+              }
           }
-          baseLayer = new OpenLayers.Layer.Google( baseLayerName , {type: baseLayerType, minZoomLevel: 0, maxZoomLevel:19, sphericalMercator: sphericalMercator, maxResolution: 156543.0339 }, baseLayerOptions );
-          objRef.model.map.numZoomLevels = 20;
+          baseLayer = new OpenLayers.Layer.Google( baseLayerName , {type: baseLayerType, minZoomLevel: 0, maxZoomLevel: (numZoomLevels - 1), sphericalMercator: sphericalMercator, maxResolution: 156543.0339 }, baseLayerOptions );
+          objRef.model.map.numZoomLevels = numZoomLevels;
           objRef.model.map.fractionalZoom = false;
         break;
     
@@ -433,6 +463,14 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
       
     }
     objRef.model.map.addLayer(baseLayer); 
+    // use animated zoom at Google API v3
+    if (typeof google != "undefined" && typeof google.maps != "undefined" && typeof google.maps.MapTypeId != "undefined" && typeof google.maps.MapTypeId.TERRAIN != "undefined") {
+      if (objRef.transitionEffect == "resize") {
+        for (var i=objRef.model.map.layers.length-1; i>=0; --i) {
+          objRef.model.map.layers[i].animationEnabled = true;
+        }
+      }
+    }
   }
   else {
     objRef.deleteAllLayers(objRef);

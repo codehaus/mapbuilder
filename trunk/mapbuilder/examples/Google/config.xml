@@ -9,6 +9,7 @@
       <widgets>
         <MapPaneOL id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
+          <transitionEffect>resize</transitionEffect>
         </MapPaneOL>
        <PanZoomBar id="panZoomBar"/>
       </widgets>
