@@ -5,7 +5,7 @@
   <head>
     <title>Mapbuilder Google Map Viewer</title>
     <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/demoStyles.css'/>
-    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAxGX044DdXsG8m7HSU-fLXBSOAhXNDhVV0MuxMid11BbPkLvZnhT_y_tZjo_qcjveh8wcvbkT0azpXg"
+    <script src="http://maps.google.com/maps/api/js?v=3.5&amp;sensor=false"
      type="text/javascript"></script>
     <script>
     // URL of Mapbuilder configuration file.
@@ -32,7 +32,7 @@
         <div id="mainbody"><!-- right side of the middle div, is also divided into two areas -->
           <div class="left">
             <h3>Explanation</h3>
-            Mapbuilder can be used to put Google Maps in a web page. Do not forget to load the google script with your API key though.<br/>
+            Mapbuilder can be used to put Google Maps (both API version 2 and 3) in a web page. Do not forget to load the google script with your API key though at API version 2.<br/>
             It requires the use of OwsContext instead of a normal WMC context. For more information have a look at <a href="http://docs.codehaus.org/display/MAP/Using+Google-layers">the wiki</a><br/>
             You can use Google, or Yahoo/MS for that matter, as a baselayer for your application. The best approach is to use the epsg:900913 projection, but that does require that your mapservers support that projection. Alternatively you can use epsg:4326 but it has a tendency to deform at larger resolutions.
           </div><!-- /left -->
