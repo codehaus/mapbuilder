@@ -140,7 +140,7 @@ function FeatureSelectHandler(toolNode, model) {
    */
   var destroyFeature = function() {
     var featureSelectHandler = this.mbFeatureSelectHandler;
-    if (this.layer.events && featureSelectHandler) {
+    if (this.layer && this.layer.events && featureSelectHandler) {
       this.layer.events.unregister('mousedown', this, featureSelectHandler.onClick);
       this.layer.events.unregister('mousemove', this, featureSelectHandler.onHover);
     }
