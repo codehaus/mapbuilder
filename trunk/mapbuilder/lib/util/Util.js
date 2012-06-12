@@ -77,7 +77,7 @@ function XslProcessor(xslUrl,docNSUri) {
       // transform and build a web page with result
       //MAP-427 Quick hack to transform an XMLElement to XMLDocument in IE
      
-      if (Sarissa._SARISSA_IS_IE){
+      if (Sarissa._SARISSA_IS_IE && !Sarissa._SARISSA_IS_IE9){
         var str = (new XMLSerializer()).serializeToString(xmlNode);
         var xmlNode = (new DOMParser()).parseFromString(str, "text/xml");
     }

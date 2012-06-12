@@ -42,7 +42,9 @@ function Config(url) {
   this.url = url;
   this.namespace = "xmlns:mb='"+mbNsUrl+"'";
   if (!Sarissa._SARISSA_IS_SAFARI_OLD) {
-    this.doc.setProperty("SelectionLanguage", "XPath");
+    if (typeof(this.doc.setProperty) == "function") {
+      this.doc.setProperty("SelectionLanguage", "XPath");
+    }
     Sarissa.setXpathNamespaces(this.doc, this.namespace);
   }
 
@@ -65,7 +67,9 @@ function Config(url) {
     //alert("error loading server config document: " + baseDir+"/"+mbServerConfig );
   } else {
     if (!Sarissa._SARISSA_IS_SAFARI_OLD) {
-      configDoc.setProperty("SelectionLanguage", "XPath");
+      if (typeof(this.doc.setProperty) == "function") {
+        this.doc.setProperty("SelectionLanguage", "XPath");
+      }
       Sarissa.setXpathNamespaces(configDoc, this.namespace);
     }
     this.proxyUrl = Mapbuilder.getProperty(configDoc, "/mb:MapbuilderConfig/mb:proxyUrl", this.proxyUrl);
@@ -181,7 +185,9 @@ function Config(url) {
       }
     }
     if(!Sarissa._SARISSA_IS_SAFARI_OLD) {
-      widgetText.setProperty("SelectionLanguage", "XPath");
+      if (typeof(widgetText.setProperty) == "function") {
+        widgetText.setProperty("SelectionLanguage", "XPath");
+      }
       Sarissa.setXpathNamespaces(widgetText, config.namespace);
     }
     return widgetText;

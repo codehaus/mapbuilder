@@ -5,7 +5,7 @@
  * Sarissa is an ECMAScript library acting as a cross-browser wrapper for native XML APIs.
  * The library supports Gecko based browsers like Mozilla and Firefox,
  * Internet Explorer (5.5+ with MSXML3.0+), Konqueror, Safari and Opera
- * @version 0.9.9.4
+ * @version 0.9.9.6
  * @author: Copyright 2004-2008 Emmanouil Batsis, mailto: mbatsis at users full stop sourceforge full stop net
  * ====================================================================
  * Licence
@@ -34,7 +34,7 @@
  * @static
  */
 function Sarissa(){}
-Sarissa.VERSION = "0.9.9.4";
+Sarissa.VERSION = "0.9.9.6";
 Sarissa.PARSED_OK = "Document contains no parsing errors";
 Sarissa.PARSED_EMPTY = "Document is empty";
 Sarissa.PARSED_UNKNOWN_ERROR = "Not well-formed or other error";
@@ -62,6 +62,8 @@ Sarissa._SARISSA_IS_SAFARI = navigator.userAgent.toLowerCase().indexOf("safari")
 Sarissa._SARISSA_IS_SAFARI_OLD = Sarissa._SARISSA_IS_SAFARI && (parseInt((navigator.userAgent.match(/AppleWebKit\/(\d+)/)||{})[1], 10) < 420);
 /** @private */
 Sarissa._SARISSA_IS_IE = document.all && window.ActiveXObject && navigator.userAgent.toLowerCase().indexOf("msie") > -1  && navigator.userAgent.toLowerCase().indexOf("opera") == -1;
+/** @private */
+Sarissa._SARISSA_IS_IE9 = Sarissa._SARISSA_IS_IE && navigator.userAgent.toLowerCase().indexOf("msie 9") > -1;
 /** @private */
 Sarissa._SARISSA_IS_OPERA = navigator.userAgent.toLowerCase().indexOf("opera") != -1;
 if(!window.Node || !Node.ELEMENT_NODE){
@@ -144,9 +146,22 @@ if(Sarissa._SARISSA_IS_IE){
     // see non-IE version
     Sarissa.getDomDocument = function(sUri, sName){
         if(!_SARISSA_DOM_PROGID){
-            _SARISSA_DOM_PROGID = Sarissa.pickRecentProgID(["Msxml2.DOMDocument.6.0", "Msxml2.DOMDocument.3.0", "MSXML2.DOMDocument", "MSXML.DOMDocument", "Microsoft.XMLDOM"]);
+        	try{
+        		_SARISSA_DOM_PROGID = Sarissa.pickRecentProgID(["Msxml2.DOMDocument.6.0", "Msxml2.DOMDocument.3.0", "MSXML2.DOMDocument", "MSXML.DOMDocument", "Microsoft.XMLDOM"]);
+        	}catch(e){
+        		_SARISSA_DOM_PROGID = "noActiveX";
+        	}
         }
-        var oDoc = new ActiveXObject(_SARISSA_DOM_PROGID);
+
+        // Not sure how far IE can carry this but try to do something useful when ActiveX is disabled
+        var oDoc = _SARISSA_DOM_PROGID == "noActiveX" ? document.createElement("xml") : new ActiveXObject(_SARISSA_DOM_PROGID);
+        // set validation off, make sure older IEs dont choke (no time or IEs to test ;-)
+        try{
+        	oDoc.validateOnParse = false; 
+        	oDoc.resolveExternals = "false";
+        	oDoc.setProperty("ProhibitDTD", false);
+        }catch(e){}
+        
         // if a root tag name was provided, we need to load it in the DOM object
         if (sName){
             // create an artifical namespace prefix 
@@ -222,9 +237,10 @@ if(Sarissa._SARISSA_IS_IE){
         try{
             converted.resolveExternals = true; 
             converted.setProperty("AllowDocumentFunction", true); 
+            converted.setProperty("AllowXsltScript", true);
         }
         catch(e){
-            // Ignore. "AllowDocumentFunction" is only supported in MSXML 3.0 SP4 and later.
+            // Ignore. "AllowDocumentFunction" and "AllowXsltScript" is only supported in MSXML 3.0 SP4+ and 3.0 SP8+ respectively.
         } 
         if(xslDoc.url && xslDoc.selectSingleNode("//xsl:*[local-name() = 'import' or local-name() = 'include']") != null){
             converted.async = false;
@@ -315,7 +331,9 @@ if(Sarissa._SARISSA_IS_IE){
     };
     
     /**
-     * Set global XSLT parameter of the imported stylesheet
+     * Set global XSLT parameter of the imported stylesheet. This method should 
+     * only be used <strong>after</strong> the importStylesheet method for the 
+     * context XSLTProcessor instance.
      * @param {String} nsURI The parameter namespace URI
      * @param {String} name The parameter base name
      * @param {String} value The new parameter value
@@ -455,7 +473,7 @@ if(Sarissa._SARISSA_IS_IE){
 //==========================================
 // Common stuff
 //==========================================
-if(!window.DOMParser){
+if(!window.DOMParser || Sarissa._SARISSA_IS_IE9){
     if(Sarissa._SARISSA_IS_SAFARI){
         /**
          * DOMParser is a utility class, used to construct DOMDocuments from XML strings
@@ -478,6 +496,10 @@ if(!window.DOMParser){
         DOMParser = function() { };
         DOMParser.prototype.parseFromString = function(sXml, contentType){
             var doc = Sarissa.getDomDocument();
+            try{
+            	doc.validateOnParse = false; 
+            	doc.setProperty("ProhibitDTD", false);
+            }catch(e){}
             doc.loadXML(sXml);
             return doc;
         };
@@ -557,6 +579,11 @@ if(!Sarissa.getParseErrorText){
 Sarissa.getText = function(oNode, deep){
     var s = "";
     var nodes = oNode.childNodes;
+    // opera fix, finds no child text node for attributes so we use .value
+    if (oNode.nodeType == Node.ATTRIBUTE_NODE && nodes.length == 0) {
+        return oNode.value;
+    }
+    // END opera fix
     for(var i=0; i < nodes.length; i++){
         var node = nodes[i];
         var nodeType = node.nodeType;
@@ -580,6 +607,17 @@ if(!window.XMLSerializer && Sarissa.getDomDocument && Sarissa.getDomDocument("",
      */
     XMLSerializer.prototype.serializeToString = function(oNode) {
         return oNode.xml;
+    };
+} else if (Sarissa._SARISSA_IS_IE9 && window.XMLSerializer) {
+    // We save old object for any futur use with IE Document (not xml)
+    IE9XMLSerializer= XMLSerializer;
+    XMLSerializer = function(){ this._oldSerializer=new IE9XMLSerializer() };
+    XMLSerializer.prototype.serializeToString = function(oNode) {
+        if (typeof(oNode)=='object' && 'xml' in oNode) {
+            return oNode.xml;
+        } else {
+            return this._oldSerializer.serializeToString(oNode);
+        }
     };
 }
 
@@ -682,20 +720,28 @@ Sarissa.moveChildNodes = function(nodeFrom, nodeTo, bPreserveExisting) {
  * @memberOf Sarissa
  * @param {Object} anyObject the object to serialize
  * @param {String} objectName a name for that object, to be used as the root element name
+ * @param {String} indentSpace Optional, the indentation space to use, default is an empty 
+ *        string. A single space character is added in any recursive call.
+ * @param {noolean} skipEscape Optional, whether to skip escaping characters that map to the 
+ *        five predefined XML entities. Default is <code>false</code>.
  * @return {String} the XML serialization of the given object as a string
  */
-Sarissa.xmlize = function(anyObject, objectName, indentSpace){
+Sarissa.xmlize = function(anyObject, objectName, indentSpace, skipEscape){
     indentSpace = indentSpace?indentSpace:'';
     var s = indentSpace  + '<' + objectName + '>';
     var isLeaf = false;
     if(!(anyObject instanceof Object) || anyObject instanceof Number || anyObject instanceof String || anyObject instanceof Boolean || anyObject instanceof Date){
-        s += Sarissa.escape(""+anyObject);
+        s += (skipEscape ? Sarissa.escape(anyObject) : anyObject);
         isLeaf = true;
     }else{
         s += "\n";
         var isArrayItem = anyObject instanceof Array;
         for(var name in anyObject){
-            s += Sarissa.xmlize(anyObject[name], (isArrayItem?"array-item key=\""+name+"\"":name), indentSpace + "   ");
+        	// do not xmlize functions 
+        	if (anyObject[name] instanceof Function){
+        		continue;
+        	} 
+            s += Sarissa.xmlize(anyObject[name], (isArrayItem?"array-item key=\""+name+"\"":name), indentSpace + " ");
         }
         s += indentSpace;
     }
@@ -963,32 +1009,28 @@ Sarissa.updateContentFromForm = function(oForm, oTargetElement, xsltproc, callba
     }
     return false;
 };
-Sarissa.FUNCTION_NAME_REGEXP = new RegExp("");//new RegExp("function\\s+(\\S+)\\s*\\((.|\\n)*?\\)\\s*{");
+
 /**
  * Get the name of a function created like:
  * <pre>function functionName(){}</pre>
- * If a name is not found and the bForce parameter is true,
- * attach the function to the window object with a new name and
- * return that
+ * If a name is not found, attach the function to 
+ * the window object with a new name and return that
  * @param {Function} oFunc the function object
- * @param {boolean} bForce whether to force a name under the window context if none is found
  */
-Sarissa.getFunctionName = function(oFunc, bForce){
-	//alert("Sarissa.getFunctionName oFunc: "+oFunc);
-	var name;
-	if(!name){
-		if(bForce){
-			// attach to window object under a new name
-			name = "SarissaAnonymous" + Sarissa._getUniqueSuffix();
-			window[name] = oFunc;
-		}
-		else{
-			name = null;
-		}
+Sarissa.getFunctionName = function(oFunc){
+	if(!oFunc || (typeof oFunc != 'function' )){
+		throw "The value of parameter 'oFunc' must be a function";
 	}
-	
-	//alert("Sarissa.getFunctionName returns: "+name);
-	if(name){
+	if(oFunc.name) { 
+		return oFunc.name; 
+	} 
+	// try to parse the function name from the defintion 
+	var sFunc = oFunc.toString(); 
+	alert("sFunc: "+sFunc);
+	var name = sFunc.substring(sFunc.indexOf('function') + 8 , sFunc.indexOf('(')); 
+	if(!name || name.length == 0 || name == " "){
+		// attach to window object under a new name
+		name = "SarissaAnonymous" + Sarissa._getUniqueSuffix();
 		window[name] = oFunc;
 	}
 	return name;
@@ -1001,7 +1043,8 @@ Sarissa.setRemoteJsonCallback = function(url, callback, callbackParam) {
 	if(!callbackParam){
 		callbackParam = "callback";
 	}
-	var callbackFunctionName = Sarissa.getFunctionName(callback, true);
+	var callbackFunctionName = Sarissa.getFunctionName(callback);
+	//alert("callbackFunctionName: '" + callbackFunctionName+"', length: "+callbackFunctionName.length);
 	var id = "sarissa_json_script_id_" + Sarissa._getUniqueSuffix(); 
 	var oHead = document.getElementsByTagName("head")[0];
 	var scriptTag = document.createElement('script');

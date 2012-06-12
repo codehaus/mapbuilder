@@ -59,7 +59,9 @@ function Logger(modelNode, parent) {
     if (config.serializeUrl) {
       var tempDoc = postLoad(config.serializeUrl,logger.doc);
       if (!Sarissa._SARISSA_IS_SAFARI_OLD) {
-        tempDoc.setProperty("SelectionLanguage", "XPath");
+        if (typeof(tempDoc.setProperty) == "function") {
+          tempDoc.setProperty("SelectionLanguage", "XPath");
+        }
         Sarissa.setXpathNamespaces(tempDoc, "xmlns:xlink='http://www.w3.org/1999/xlink'");
       }
       var onlineResource = tempDoc.selectSingleNode("//OnlineResource");

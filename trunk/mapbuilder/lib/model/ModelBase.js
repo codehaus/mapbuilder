@@ -278,7 +278,9 @@ function ModelBase(modelNode, parentModel) {
     // the following two lines are needed for IE; set the namespace for selection
     if(this.doc){
       if (!Sarissa._SARISSA_IS_SAFARI_OLD) {
-        this.doc.setProperty("SelectionLanguage", "XPath");
+        if (typeof(this.doc.setProperty) == "function") {
+          this.doc.setProperty("SelectionLanguage", "XPath");
+        }
         if(this.namespace) Sarissa.setXpathNamespaces(this.doc, this.namespace);
       }
 
@@ -352,7 +354,9 @@ function ModelBase(modelNode, parentModel) {
     if (config.serializeUrl) {
       var response = postGetLoad(config.serializeUrl, objRef.doc ,"text/xml","","");
       if (!Sarissa._SARISSA_IS_SAFARI_OLD) {
-        response.setProperty("SelectionLanguage", "XPath");
+        if (typeof(response.setProperty) == "function") {
+          response.setProperty("SelectionLanguage", "XPath");
+        }
         Sarissa.setXpathNamespaces(response, "xmlns:xlink='http://www.w3.org/1999/xlink'");
       }
       var onlineResource = response.selectSingleNode("//OnlineResource");

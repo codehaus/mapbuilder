@@ -84,7 +84,9 @@ WebServiceRequest.prototype.createHttpPayload = function(feature) {
 
   //extract the URL from the transformation result for GET method
   if (httpPayload.method.toLowerCase() == "get") {
-    httpPayload.postData.setProperty("SelectionLanguage", "XPath");
+    if (typeof(httpPayload.postData.setProperty) == "function") {
+      httpPayload.postData.setProperty("SelectionLanguage", "XPath");
+    }
     Sarissa.setXpathNamespaces(httpPayload.postData, "xmlns:mb='http://mapbuilder.sourceforge.net/mapbuilder'");
     var queryString = httpPayload.postData.selectSingleNode("//mb:QueryString");
     if (httpPayload.url.indexOf("?") < 0) {
