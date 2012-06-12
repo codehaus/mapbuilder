@@ -209,7 +209,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     node.style.width = objRef.model.getWindowWidth()+"px";
     node.style.height = objRef.model.getWindowHeight()+"px";
   }
-  if (Sarissa._SARISSA_IS_OPERA) {
+  if (Sarissa._SARISSA_IS_OPERA || Sarissa._SARISSA_IS_IE) {
     //do not allow a height of 0 (causes division by zero in further OL initialization)
     if (node.clientHeight == 0) {
       if (node.style.height.length > 1 && node.style.height.contains("%")) {
