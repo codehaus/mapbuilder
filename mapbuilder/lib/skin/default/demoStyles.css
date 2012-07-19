@@ -215,3 +215,7 @@ margin:0px;
 	text-align: center;
 	z-index: 100;
 	}
+
+.olLayerGoogleV3.olLayerGooglePoweredBy {
+  display: none;
+}
