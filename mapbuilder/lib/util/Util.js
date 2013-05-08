@@ -18,6 +18,28 @@ a web page.
 @author Cameron Shorter - Cameron AT Shorter.net
 */
 function XslProcessor(xslUrl,docNSUri) {
+
+ /**
+  * Remember (i.e. cache) all used stylesheets in the global 
+  * variable Mapbuilder.stylesheets
+  * @param xslUrl The URL of an XSL stylesheet.
+  * @return The XSL stylesheet document.
+  */
+  this.loadCachedStylesheet = function(xslUrl) {
+    // at start: if necessary create cache object
+    if (!Mapbuilder.stylesheets) {
+      Mapbuilder.stylesheets = new Object();
+    }
+    if (!Mapbuilder.stylesheets[xslUrl]) {
+      // if not cached: load per ajax
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.open("GET", xslUrl, false);
+      xmlhttp.send(null);
+      Mapbuilder.stylesheets[xslUrl] = xmlhttp.responseXML;
+    }
+    return Mapbuilder.stylesheets[xslUrl];
+  }
+
   // override Sarissa configurations to prefer MSXML3, because
   // MSXML6 does not work well with IE6SP2
   if (!MB_IS_MOZ) {
@@ -49,15 +71,8 @@ function XslProcessor(xslUrl,docNSUri) {
     this.xslDom = (new DOMParser()).parseFromString(xmlString, "text/xml");
   }
   else {
-    if(Sarissa._SARISSA_IS_SAFARI){
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("GET", xslUrl, false);
-        xmlhttp.send(null);
-        this.xslDom = xmlhttp.responseXML;
-    }else
-    {
-      this.xslDom.load(xslUrl);
-    }
+    // load stylesheet using cache (using ajax)
+    this.xslDom = this.loadCachedStylesheet(xslUrl);
   }
   if ( Sarissa.getParseErrorText(this.xslDom) != Sarissa.PARSED_OK )
     alert(mbGetMessage("errorLoadingStylesheet", xslUrl));
