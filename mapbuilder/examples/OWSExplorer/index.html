@@ -21,7 +21,7 @@
         var pageBody = document.getElementsByTagName("body")[0];
         var workDiv = document.getElementById("workspace");
         var footerDiv = document.getElementById("footer");
-        if (_SARISSA_IS_IE) {
+        if (Sarissa._SARISSA_IS_IE) {
           workDiv.style.height = pageBody.offsetHeight - workDiv.offsetTop - footerDiv.offsetHeight - 30;  //20 is a fudge factor
         } else {
           workDiv.style.height = window.innerHeight - workDiv.offsetTop - footerDiv.offsetHeight - 20;  //20 is a fudge factor
