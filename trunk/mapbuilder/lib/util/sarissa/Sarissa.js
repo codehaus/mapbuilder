@@ -62,8 +62,8 @@ Sarissa._SARISSA_IS_SAFARI = navigator.userAgent.toLowerCase().indexOf("safari")
 Sarissa._SARISSA_IS_SAFARI_OLD = Sarissa._SARISSA_IS_SAFARI && (parseInt((navigator.userAgent.match(/AppleWebKit\/(\d+)/)||{})[1], 10) < 420);
 /** @private */
 Sarissa._SARISSA_IS_IE = document.all && window.ActiveXObject && navigator.userAgent.toLowerCase().indexOf("msie") > -1  && navigator.userAgent.toLowerCase().indexOf("opera") == -1;
-/** @private */
-Sarissa._SARISSA_IS_IE9 = Sarissa._SARISSA_IS_IE && navigator.userAgent.toLowerCase().indexOf("msie 9") > -1;
+/** @private IE9 or IE10 */
+Sarissa._SARISSA_IS_IE9 = Sarissa._SARISSA_IS_IE && (navigator.userAgent.toLowerCase().indexOf("msie 9") > -1 || navigator.userAgent.toLowerCase().indexOf("msie 10") > -1);
 /** @private */
 Sarissa._SARISSA_IS_OPERA = navigator.userAgent.toLowerCase().indexOf("opera") != -1;
 if(!window.Node || !Node.ELEMENT_NODE){
