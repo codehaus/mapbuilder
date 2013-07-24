@@ -855,13 +855,15 @@ Mapbuilder.getProperty = function(domNode, propertyName, defaultValue) {
   var property = null;
   // Set widget text value as parameters for propertyNames containing
   // mb: (another namespace like wmc raises XPath validation error code 51)
-  if (config && config.widgetText && propertyName && propertyName.contains("mb:")) {
+  if (config && config.widgetText && propertyName && (typeof(propertyName) == "string") && propertyName.contains && propertyName.contains("mb:")) {
     try {
       // first set the text values of the widget with an id specified
-      var textNodeXpath = "/mb:WidgetText/mb:widgets/mb:" + domNode.nodeName + "[@id='" + defaultValue + "']";
-      var textParam = config.widgetText.selectSingleNode(textNodeXpath+"/" + propertyName);
-      if (textParam) {
-        property = getNodeValue(textParam);
+      if (domNode && domNode.attributes && domNode.attributes[0]) {
+        var textNodeXpath = "/mb:WidgetText/mb:widgets/mb:" + domNode.nodeName + "[@id='" + domNode.attributes[0].nodeValue + "']";
+        var textParam = config.widgetText.selectSingleNode(textNodeXpath+"/" + propertyName);
+        if (textParam) {
+          property = getNodeValue(textParam);
+        }
       }
       // then the text values of the widget without an id
       if (!property) {

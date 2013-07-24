@@ -893,19 +893,26 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       else{
         layerOptions.style=objRef.getWebSafeStyle(objRef, 2*i+1);
       }
-      objRef.oLlayers[layerId] = new OpenLayers.Layer.GML(title,href,layerOptions);
+      objRef.oLlayers[layerId] = new OpenLayers.Layer.Vector(title, {
+        strategies: [new OpenLayers.Strategy.Fixed()],
+        protocol: new OpenLayers.Protocol.HTTP({
+          url: href,
+          format: new OpenLayers.Format.GML(layerOptions)
+        })
+      });
 
     break;
 
      // KML Layer
     case "KML":
     case "kml":
-      objRef.oLlayers[layerId]= new OpenLayers.Layer.GML(
-        title,
-        href,{
-          format: OpenLayers.Format.KML
-          }
-        );
+      objRef.oLlayers[layerId]= new OpenLayers.Layer.Vector(title, {
+        strategies: [new OpenLayers.Strategy.Fixed()],
+        protocol: new OpenLayers.Protocol.HTTP({
+          url: href,
+          format: new OpenLayers.Format.KML()
+        })
+      });
     break;
     
   // Currently the following layertypes are only supported in a OwsContext doc as a BaseLayer
