@@ -112,7 +112,7 @@ function FeatureSelectHandler(toolNode, model) {
       objRef.control = null;
     } else if (layer) {
       if (!objRef.control) {
-        objRef.control = new OpenLayers.Control.SelectFeature(layer, {
+        var selectControl = objRef.control = new OpenLayers.Control.SelectFeature(layer, {
           hover: true,
           onSelect: objRef.onSelect,
           onUnselect: objRef.onUnselect,
@@ -129,6 +129,12 @@ function FeatureSelectHandler(toolNode, model) {
         });
         objRef.map = objRef.targetModel.map;
         objRef.map.addControl(objRef.control);
+        objRef.handlers = {
+          // By registering our click handler and using stopSingle, we make sure
+          // that our event is handled and no other event handlers are triggered
+          click: new OpenLayers.Handler.Click( selectControl, { click: objRef.onClick }, { stopSingle: true } )
+         ,hover: new OpenLayers.Handler.Hover( selectControl, { move: objRef.onHover } )
+        };
       }
       objRef.control.activate();
     }
@@ -140,9 +146,10 @@ function FeatureSelectHandler(toolNode, model) {
    */
   var destroyFeature = function() {
     var featureSelectHandler = this.mbFeatureSelectHandler;
-    if (this.layer && this.layer.events && featureSelectHandler) {
-      this.layer.events.unregister('mousedown', this, featureSelectHandler.onClick);
-      this.layer.events.unregister('mousemove', this, featureSelectHandler.onHover);
+    if ( featureSelectHandler ) {
+      featureSelectHandler.feature = null;
+      featureSelectHandler.handlers.click.deactivate();
+      featureSelectHandler.handlers.hover.deactivate();
     }
     this.mbFeatureSelectHandler = null;
     OpenLayers.Feature.Vector.prototype.destroy.apply(this, arguments);
@@ -150,24 +157,15 @@ function FeatureSelectHandler(toolNode, model) {
 
   /**
    * This method is triggered when the mouse is over a vector
-   * feature. It registers priority events mousedown and
-   * mousemove, which will call this widget's onClick/onHover
-   * method in the context of a feature. This way we address
-   * two problems with the OpenLayers SelectFeature control:<pre>
-   *      - for the info popup, we need the screen coordinates
-   *        which we do not get from the handler directly.
-   *      - when the active tool changes, something in the
-   *        priority of OL event handlers changes, so the
-   *        click event on the feature gets lost. By registering
-   *        our priority handler and calling Event.stop() in
-   *        the target method, we make sure that our event is
-   *        handled and no other event handlers are triggered.
-   * </pre>
+   * feature. It activates the click and hover handlers defined
+   * in init(), which will call this widget's onClick/onHover
+   * method in the context of a feature.
    * @param feature OpenLayers feature
    */
   this.onSelect = function(feature) {
     if (!feature) return;
     var objRef = this.mbFeatureSelectHandler;
+    objRef.feature = feature; // set reference to the feature for click and hover
     for (var i=0; i<objRef.sourceModels.length; i++) {
       objRef.sourceModels[i].setParam("mouseoverFeature", feature.fid);
     }
@@ -176,8 +174,8 @@ function FeatureSelectHandler(toolNode, model) {
     // triggered by the highlightFeature event
     if (feature.layer.events && !feature.mbNoMouseEvent) {
       feature.destroy = destroyFeature;
-      feature.layer.events.registerPriority('mousedown', feature, objRef.onClick);
-      feature.layer.events.registerPriority('mousemove', feature, objRef.onHover);
+      objRef.handlers.click.activate();
+      objRef.handlers.hover.activate();
     } else {
       feature.mbNoMouseEvent = null;
     }
@@ -192,49 +190,47 @@ function FeatureSelectHandler(toolNode, model) {
   this.onUnselect = function(feature) {
     if (!feature) return;
     var objRef = this.mbFeatureSelectHandler || feature.mbFeatureSelectHandler;
+    objRef.feature = null; // set not reference to a feature, thus click and hover handler do nothing
     for (var i=0; i<objRef.sourceModels.length; i++) {
       objRef.sourceModels[i].setParam("mouseoutFeature", feature.fid);
     }
     objRef.model.setParam("olFeatureOut", feature);
     if (feature.layer.events) {
-      feature.layer.events.unregister('mousedown', feature, objRef.onClick);
+      objRef.handlers.click.deactivate();
+      objRef.handlers.hover.deactivate();
     }
   }
   
   /**
    * This method is triggered when a user clicks on a feature.
-   * It is called by OpenLayers event handling in the context
-   * of a feature. This means that 'this' in this method refers
-   * to an {OpenLayers.Feature}. Widgets listening to the
+   * It is called by OpenLayers Click Handler event handling in the context
+   * of the control. This means that 'this' in this method refers
+   * to an {OpenLayers.Control}. Widgets listening to the
    * olFeatureSelect have access to the event, because setParam
    * is used to set the reference to the event.
    * @param evt OpenLayers event
    */
   this.onClick = function(evt) {
     // pass the feature to the event object
-    evt.feature = this;
-    var objRef = this.mbFeatureSelectHandler;
+    var selectControl = this;
+    var objRef = selectControl.mbFeatureSelectHandler;
+    evt.feature = objRef.feature;
     objRef.model.setParam("olFeatureSelect", evt);
-    OpenLayers.Event.stop(evt);
   }
   
   /**
    * This method is triggered when the mouse is over a feature.
-   * It is called by OpenLayers event handling in the context
-   * of a feature. This means that 'this' in this method refers
-   * to an {OpenLayers.Feature}. Widgets listening to the
+   * It is called by OpenLayers Hover Handler event handling in the context
+   * of the control. This means that 'this' in this method refers
+   * to an {OpenLayers.Control}. Widgets listening to the
    * olFeatureHover have access to the event, because setParam
    * is used to set the reference to the event.
    * @param evt OpenLayers event
    */
   this.onHover = function(evt) {
-    var objRef = this.mbFeatureSelectHandler;
-    if (this.layer && this.layer.events) {
-      // unregister the mousemove event, because we already know that
-      // the mouse moved and we can then proceed to our hover popup.
-      this.layer.events.unregister('mousemove', this, objRef.onHover);
-    }
-    evt.feature = this;
+    var selectControl = this;
+    var objRef = selectControl.mbFeatureSelectHandler;
+    var feature = evt.feature = objRef.feature;
     objRef.model.setParam("olFeatureHover", evt);
   }
 
