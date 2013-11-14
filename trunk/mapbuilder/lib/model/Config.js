@@ -23,19 +23,16 @@ mapbuilder.loadScript(baseDir+"/model/ModelBase.js");
  */
 function Config(url) {
 /**
- * open the application specific configuration document, passed in aas the url argument.
+ * open the application specific configuration document, passed in as the url argument.
  */
   this.doc = Sarissa.getDomDocument();
   this.doc.async = false;
   this.doc.validateOnParse=false;  //IE6 SP2 parsing bug
-  if (Sarissa._SARISSA_IS_SAFARI) {
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("GET", url, false);
-    xmlhttp.send(null);
-    this.doc = xmlhttp.responseXML;
-  } else {
-    this.doc.load(url);
-  }
+  // load config (using ajax)
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.open("GET", url, false);
+  xmlhttp.send(null);
+  this.doc = xmlhttp.responseXML;
   if (Sarissa.getParseErrorText(this.doc) != Sarissa.PARSED_OK){
     alert("error loading config document: " + url );//+ " - " + Sarissa.getParseErrorText(this.doc) );
   }
@@ -55,14 +52,11 @@ function Config(url) {
   var configDoc = Sarissa.getDomDocument();
   configDoc.async = false;
   configDoc.validateOnParse=false;  //IE6 SP2 parsing bug
-  if (Sarissa._SARISSA_IS_SAFARI) {
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("GET", baseDir+"/"+mbServerConfig, false);
-    xmlhttp.send(null);
-    configDoc = xmlhttp.responseXML;
-  } else {
-    configDoc.load(baseDir+"/"+mbServerConfig);
-  }
+  // load config document (using ajax)
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.open("GET", baseDir+"/"+mbServerConfig, false);
+  xmlhttp.send(null);
+  configDoc = xmlhttp.responseXML;
   if (Sarissa.getParseErrorText(configDoc) != Sarissa.PARSED_OK) {
     //alert("error loading server config document: " + baseDir+"/"+mbServerConfig );
   } else {
@@ -148,17 +142,11 @@ function Config(url) {
       widgetText = (new DOMParser()).parseFromString(xmlString, "text/xml");
     }
     else {
-      if (Sarissa._SARISSA_IS_SAFARI) {
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("GET", widgetTextUrl, false);
-        xmlhttp.send(null);
-        widgetText = xmlhttp.responseXML;
-      } else {
-        try {
-          widgetText.load(widgetTextUrl);
-        }
-        catch (ignoredErr) {}
-      }
+      // load widget texts (using ajax)
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.open("GET", widgetTextUrl, false);
+      xmlhttp.send(null);
+      widgetText = xmlhttp.responseXML;
     }      
     if (Sarissa.getParseErrorText(widgetText) != Sarissa.PARSED_OK) {
       var errMsg = "Error loading widgetText document: " + widgetTextUrl;
@@ -170,15 +158,11 @@ function Config(url) {
         alert(errMsg + "\nFalling back on default language=\"" + config.defaultLang + "\"");
         config.lang = config.defaultLang;
         widgetTextUrl = dir + "/" + config.lang + widgetFile;
-        if(Sarissa._SARISSA_IS_SAFARI) {
-          var xmlhttp = new XMLHttpRequest();
-          xmlhttp.open("GET", widgetTextUrl, false);
-          xmlhttp.send(null);
-          widgetText = xmlhttp.responseXML;
-        }
-        else {
-          widgetText.load(widgetTextUrl);
-        }
+        // load widget texts (using ajax)
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", widgetTextUrl, false);
+        xmlhttp.send(null);
+        widgetText = xmlhttp.responseXML;
         if (Sarissa.getParseErrorText(widgetText) != Sarissa.PARSED_OK) {
           alert("Falling back on default language failed!");
         }
