@@ -5,7 +5,7 @@
  * Sarissa is an ECMAScript library acting as a cross-browser wrapper for native XML APIs.
  * The library supports Gecko based browsers like Mozilla and Firefox,
  * Internet Explorer (5.5+ with MSXML3.0+), Konqueror, Safari and Opera
- * @version 0.9.9.6 patched for IE10 and IE9 compatibility mode/view
+ * @version 0.9.9.6 patched for IE10 and IE9 compatibility mode/view and IE11
  * @author: Copyright 2004-2008 Emmanouil Batsis, mailto: mbatsis at users full stop sourceforge full stop net
  * ====================================================================
  * Licence
@@ -34,7 +34,7 @@
  * @static
  */
 function Sarissa(){}
-Sarissa.VERSION = "0.9.9.6 patched for IE10 and IE9 compatibility mode/view";
+Sarissa.VERSION = "0.9.9.6 patched for IE10 and IE9 compatibility mode/view and IE11";
 Sarissa.PARSED_OK = "Document contains no parsing errors";
 Sarissa.PARSED_EMPTY = "Document is empty";
 Sarissa.PARSED_UNKNOWN_ERROR = "Not well-formed or other error";
@@ -61,9 +61,9 @@ Sarissa._SARISSA_IS_SAFARI = navigator.userAgent.toLowerCase().indexOf("safari")
 /** @private */
 Sarissa._SARISSA_IS_SAFARI_OLD = Sarissa._SARISSA_IS_SAFARI && (parseInt((navigator.userAgent.match(/AppleWebKit\/(\d+)/)||{})[1], 10) < 420);
 /** @private */
-Sarissa._SARISSA_IS_IE = document.all && window.ActiveXObject && navigator.userAgent.toLowerCase().indexOf("msie") > -1  && navigator.userAgent.toLowerCase().indexOf("opera") == -1;
-/** @private IE9 or IE10 (also correct identification of compatibility mode/view) */
-Sarissa._SARISSA_IS_IE9 = Sarissa._SARISSA_IS_IE && (navigator.userAgent.toLowerCase().indexOf("msie 9") > -1 || navigator.userAgent.toLowerCase().indexOf("msie 10") > -1 || document.documentMode >= 9);
+Sarissa._SARISSA_IS_IE = (navigator.userAgent.toLowerCase().indexOf("msie") > -1 || navigator.userAgent.toLowerCase().indexOf("trident") > -1) && navigator.userAgent.toLowerCase().indexOf("opera") == -1;
+/** @private IE9, IE10 or IE11 (also correct identification of compatibility mode/view) */
+Sarissa._SARISSA_IS_IE9 = Sarissa._SARISSA_IS_IE && (navigator.userAgent.toLowerCase().indexOf("msie 9") > -1 || navigator.userAgent.toLowerCase().indexOf("msie 10") > -1 || navigator.userAgent.toLowerCase().indexOf("trident/7.0") > -1 || document.documentMode >= 9);
 /** @private */
 Sarissa._SARISSA_IS_OPERA = navigator.userAgent.toLowerCase().indexOf("opera") != -1;
 if(!window.Node || !Node.ELEMENT_NODE){
