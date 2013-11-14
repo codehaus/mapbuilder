@@ -85,7 +85,13 @@ public class ProxyRedirect extends HttpServlet
           //force the response to have XML content type (WMS servers generally don't)
           response.setContentType("text/xml");
           String responseBody = httpget.getResponseBodyAsString().trim();
-          response.setContentLength(responseBody.length());
+          // use encoding of the request or UTF8
+          String encoding = request.getCharacterEncoding();
+          if (encoding == null) encoding = "UTF-8";
+          response.setCharacterEncoding(encoding);
+          log.info("responseEncoding:" + encoding);
+          // do not set a content-length of the response (string length might not match the response byte size)
+          //response.setContentLength(responseBody.length());
           log.info("responseBody:" + responseBody);
           PrintWriter out = response.getWriter();
           out.print( responseBody );
@@ -139,7 +145,6 @@ throws IOException {
 
         // Transfer bytes from in to out
         log.info("HTTP POST transfering..." + serverUrl);
-        PrintWriter out = response.getWriter();
         String body = inputStreamAsString( request.getInputStream());
 
         HttpClient client = new HttpClient();
@@ -172,8 +177,15 @@ throws IOException {
         if (httppost.getStatusCode() == HttpStatus.SC_OK) {
           response.setContentType("text/xml");
           String responseBody = httppost.getResponseBodyAsString();
-          response.setContentLength(responseBody.length());
+          // use encoding of the request or UTF8
+          String encoding = request.getCharacterEncoding();
+          if (encoding == null) encoding = "UTF-8";
+          response.setCharacterEncoding(encoding);
+          log.info("responseEncoding:" + encoding);
+          // do not set a content-length of the response (string length might not match the response byte size)
+          //response.setContentLength(responseBody.length());
           log.info("responseBody:" + responseBody);
+          PrintWriter out = response.getWriter();
           out.print( responseBody );
         } else {
           log.error("Unexpected failure: " + httppost.getStatusLine().toString());
