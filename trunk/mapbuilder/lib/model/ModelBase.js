@@ -352,7 +352,7 @@ function ModelBase(modelNode, parentModel) {
    */
   this.saveModel = function(objRef) {
     if (config.serializeUrl) {
-      var response = postGetLoad(config.serializeUrl, objRef.doc ,"text/xml","","");
+      var response = postGetLoad(config.serializeUrl, objRef.doc ,"text/xml; charset=utf-8","","");
       if (!Sarissa._SARISSA_IS_SAFARI_OLD) {
         if (typeof(response.setProperty) == "function") {
           response.setProperty("SelectionLanguage", "XPath");

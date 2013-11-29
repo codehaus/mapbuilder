@@ -149,7 +149,7 @@ function postLoad(sUri, docToSend, contentType ) {
    } else {
      xmlHttp.open("POST", sUri, false);
    }
-   xmlHttp.setRequestHeader("content-type","text/xml");
+   xmlHttp.setRequestHeader("content-type","text/xml; charset=utf-8");
    if (contentType) xmlHttp.setRequestHeader("content-type",contentType);
    //alert("sending:"+docToSend.xml);
    xmlHttp.send( docToSend );
@@ -199,7 +199,7 @@ function postGetLoad(sUri, docToSend, contentType , dir, fileName) {
    {
        xmlHttp.open("POST", sUri, false);
    }
-   xmlHttp.setRequestHeader("content-type","text/xml");
+   xmlHttp.setRequestHeader("content-type","text/xml; charset=utf-8");
    if (contentType) xmlHttp.setRequestHeader("content-type",contentType);
    xmlHttp.send( docToSend );
 
