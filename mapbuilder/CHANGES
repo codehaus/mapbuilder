@@ -5,6 +5,42 @@ $Id$
 
 This file contains information about updates to each release:
 
+mapbuilder-lib-1.5.1-release
+============================
+2014-03-26
+
+This is a minor release, addressing some bug fixes with recent browsers
+(Firefox 3.6 and 4+, Internet Explorer 9 to 11, Opera and WebKit-Browsers like
+Google Chrome), and updating OpenLayers to the 2.13 release. 
+
+This release was created as a maintaince for the last official
+release of Community Mapbuilder.
+See http://docs.codehaus.org/display/MAP/EndOfLife for more information.
+
+It covers the following:
+* Javascript was cleaned up to be compatible with Openlayers coding practices.
+* Address issues triggered when working with Prototype.js. MAP-485
+* A number of bug fixes
+* Support of Opera (MAP-484): mapbuilder examples work in Opera 10.51 and 9.50.
+* Limit OverviewMap zoomin to a defined zoomLevel (MAP-560)
+* catch any error that occur accessing a stylesheet (MAP-555)
+* enable id-based widget texts
+* enable new line in a message (\n will be interpreted as a new line)
+* Support of WebKit-Browser (MAP-561): mapbuilder examples work with Apple
+  Safari 5.0.4, SRWare Iron 3.0.197.0 (22047), Mozilla Firefox 4.0 and 3.6.9,
+  Internet Explorer 8 and Opera 9.5 and 11.01.
+* enable input in CursorTrack widget: pan and zoom to a user defined coordinate
+* EPSG 31251-31259 (Austrian projections) added
+* updated Proj4js to proj4js-1.1.0 r2206 (i.e. tags/proj4js-1.1.0)
+* Update to OpenLayers 2.13 (MAP-562)
+* Support for Google Maps API v3 (MAP-565)
+* Support for IE 9 (MAP-564)
+* Speedup for more than one widgets using the same stylesheet - caching it
+* Support for IE 10 (MAP-566): also compatibility mode
+* use OpenLayers Click and Hover Handler (instead of priority events), thus the
+  context changes from Feature to Control
+* Support for IE 11 (MAP-567)
+
 mapbuilder-lib-1.5-release
 ==========================
 2009-07-16
