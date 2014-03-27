@@ -269,21 +269,23 @@ $Id$
   
     <!--
       When mapbuilder loads config.xsd into a model from Apache,
-      Sarrissa doesn't recognise the .xsd file as XML, so we need to
+      Sarissa doesn't recognise the .xsd file as XML, so we need to
       change the extension.
     -->
     <copy file="${basedir}/lib/schemas/config.xsd" tofile="${build.home}/lib/schemas/config.xml" overwrite="true"/>
 
     <mkdir dir="${build.home}/docs"/>
+    <mkdir dir="${build.home}/docs/jsdocs"/>
     
     <!-- style the design docs from the XBook document -->
     <!--style in="${basedir}/design/mapbuilder-lib.xml" style="/usr/share/sgml/docbook/xsl-stylesheets/html/docbook.xsl" out="${build.home}/docs/design/index.html"/-->
     
     <echo message="os name=${os.name}"/>
-  	<chmod file="${basedir}/build/publish.sh" perm="ugo+rx"/>
- 	<chmod file="${basedir}/build/jsdoc/jsdoc.pl" perm="ugo+rx"/>  	
+    <chmod file="${basedir}/build/publish.sh" perm="ugo+rx"/>
+    <chmod file="${basedir}/build/jsdoc/jsdoc.pl" perm="ugo+rx"/>  	
     <exec executable="${basedir}/build/publish.sh" os="Linux"/>
-    <exec executable="${basedir}/build/publish.sh" os="Mac OS X"/>
+    <exec executable="${basedir}/build/publish.sh" os="Mac"/>
+    <exec executable="${basedir}/build/publish.cmd" osfamily="windows"/>
   </target>
 
 <!--  ==================== Compilation Control Options ==================== -->
