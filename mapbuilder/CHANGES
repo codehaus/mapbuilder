@@ -18,9 +18,6 @@ release of Community Mapbuilder.
 See http://docs.codehaus.org/display/MAP/EndOfLife for more information.
 
 It covers the following:
-* Javascript was cleaned up to be compatible with Openlayers coding practices.
-* Address issues triggered when working with Prototype.js. MAP-485
-* A number of bug fixes
 * Support of Opera (MAP-484): mapbuilder examples work in Opera 10.51 and 9.50.
 * Limit OverviewMap zoomin to a defined zoomLevel (MAP-560)
 * catch any error that occur accessing a stylesheet (MAP-555)
