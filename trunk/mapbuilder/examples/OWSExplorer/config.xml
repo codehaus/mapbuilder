@@ -53,9 +53,6 @@
         </MapPaneOL>
         <AoiBoxOL id="aoiBoxLocator">
           <htmlTagId>locatorMap</htmlTagId>
-          <lineColor>#FF0000</lineColor>
-          <lineWidth>1</lineWidth>
-          <crossSize>15</crossSize>
         </AoiBoxOL>
       </widgets>
       <tools>
@@ -212,7 +209,6 @@
       <targetModel>mainMap</targetModel>
       <class>Button</class>
       <disabledSrc>/images/SaveDisable.png</disabledSrc>
-      <popupWindowName>modelXML</popupWindowName>
     </Save>
     <ExampleList id="exampleList"><!-- this is the widget that draws the example menu -->
     <scriptFile>../ExampleList.js</scriptFile>
