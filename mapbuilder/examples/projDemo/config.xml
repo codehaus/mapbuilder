@@ -9,13 +9,13 @@
           <fixedSize>true</fixedSize>
         </MapPaneOL>
         <CursorTrack id="cursorTrack">
+          <stylesheet>./CursorTrack.xsl</stylesheet>
           <showPx>true</showPx>
           <showXY>true</showXY>
           <showLatLong>true</showLatLong>
           <showDMS>false</showDMS>
           <showMGRS>false</showMGRS>
           <precision>2</precision>
-          <stylesheet>./CursorTrack.xsl</stylesheet>
         </CursorTrack>
         <MapScaleText id="scaleText"/>
         <!--Loading2 id="loading2">
@@ -31,7 +31,6 @@
       <widgets>
         <CollectionList id="maps">
           <targetModel>mainMap</targetModel>
-          <preserveExtent>false</preserveExtent>
         </CollectionList>
       </widgets>
     </Model>

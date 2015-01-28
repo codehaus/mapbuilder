@@ -6,8 +6,8 @@
       <widgets>
         <MapPaneOL id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
-           <displayOutsideMaxExtent>true</displayOutsideMaxExtent>
           <fixedSize>true</fixedSize>
+          <displayOutsideMaxExtent>true</displayOutsideMaxExtent>
         </MapPaneOL>
         <!--
         <Loading2 id="loading2">
@@ -15,8 +15,8 @@
         </Loading2>
         -->
         <LayerControl id="contextLegend">
-          <stylesheet>LayerControl.xsl</stylesheet>
           <htmlTagId>layerControl</htmlTagId>
+          <stylesheet>LayerControl.xsl</stylesheet>
           <title>Layer Control</title>
         </LayerControl>        
         <LayerMetadata id="layerMetadata1">
@@ -51,11 +51,11 @@
       <defaultModelUrl>context2.xml</defaultModelUrl>
       <widgets>
         <LayerControl id="selectLayer">
-          <stylesheet>LayerControl.xsl</stylesheet>
           <htmlTagId>selectLayer</htmlTagId>
           <targetModel>mainMap</targetModel>
+          <stylesheet>LayerControl.xsl</stylesheet>
           <title>Search Results</title>
-          <mode>layerselect</mode><!-- options: default, selectlayer -->
+          <!-- options: default, selectlayer -->
           <!--
           <limitImageEnable>/images/LimitDisable.png</limitImageEnable>
           <limitImageDisable>/images/LimitDisable.png</limitImageDisable>

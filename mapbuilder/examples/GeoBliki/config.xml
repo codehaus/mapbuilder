@@ -133,7 +133,6 @@
       <targetModel>mainMap</targetModel>
       <class>Button</class>
       <disabledSrc>/images/SaveDisable.png</disabledSrc>
-      <popupWindowName>modelXML</popupWindowName>
     </Save>
     <ExampleList id="exampleList"><!-- this is the widget that draws the example menu -->
 		<scriptFile>../ExampleList.js</scriptFile>

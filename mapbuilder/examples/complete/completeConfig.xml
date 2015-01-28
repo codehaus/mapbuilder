@@ -53,7 +53,7 @@
         <!--AoiForm id="aoiForm"/-->
         <MapScaleText id="mapScaleText" />
         <Save id="saveModelWidget">
-          <htmlTagId>saveModel</htmlTagId>
+          <buttonBar>saveModel</buttonBar>
         </Save>
         <LayerControl id="layerControl">
           <opacity>true</opacity>
@@ -82,18 +82,14 @@
 			    <fixedSize>true</fixedSize>
           <imageBuffer>1</imageBuffer>
         </MapPaneOL>
-        <AoiBoxDHTML id="aoiBoxLocator">
+        <AoiBoxOL id="aoiBoxLocator">
           <htmlTagId>locatorMap</htmlTagId>
-          <lineColor>#FF0000</lineColor>
-          <lineWidth>1</lineWidth>
-          <crossSize>15</crossSize>
-        </AoiBoxDHTML>
+        </AoiBoxOL>
         <ModelUrlInput id="urlInput">
           <defaultUrl>../data/context/modisWorld.xml</defaultUrl>
         </ModelUrlInput>
       </widgets>
       <tools>
-        <AoiMouseHandler id="locatorAoi" />
         <ZoomToAoi id="locatorZoomToAoi">
           <targetModel>mainMap</targetModel>
         </ZoomToAoi>
@@ -311,7 +307,6 @@
       <targetModel>mainMap</targetModel>
       <class>Button</class>
       <disabledSrc>/images/SaveDisable.png</disabledSrc>
-      <popupWindowName>modelXML</popupWindowName>
     </Save>
   </widgets>
   <skinDir>../../lib/skin/default</skinDir>

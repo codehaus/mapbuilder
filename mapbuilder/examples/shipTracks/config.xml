@@ -53,9 +53,9 @@
         </TipWidgetOL>
         <GmlRendererOL id="testGmlRenderer">
           <targetModel>mainMap</targetModel>
-          <stylesheet>stylesheets/georss2wfs.xsl</stylesheet>
           <sldModel>sld</sldModel>
           <hoverCursor>pointer</hoverCursor>
+          <stylesheet>stylesheets/georss2wfs.xsl</stylesheet>
           <featureOnClick>featurePopup</featureOnClick>
           <featureOnHover>featurePopup</featureOnHover>
         </GmlRendererOL>

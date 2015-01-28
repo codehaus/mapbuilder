@@ -160,9 +160,9 @@
               <xs:documentation>If set this property will be used for placing the buttons in a page. Buttons get appended to this HTML element in sequence. Use this property if you want to place buttons with the same buttonBar property on a different place in the web page.</xs:documentation>
             </xs:annotation>
           </xs:element>
-          <xs:element name="targetModel" type="xs:string">
+          <xs:element name="targetModel" type="xs:string" minOccurs="0">
             <xs:annotation>
-              <xs:documentation>Target Model</xs:documentation>
+              <xs:documentation>the id of a model object which this button acts on.  Optional, if absent the action happens on the parent model of this button.</xs:documentation>
             </xs:annotation>
           </xs:element>
           <xs:element name="targetContext" type="xs:string" minOccurs="0">
@@ -522,13 +522,72 @@
     <xs:complexContent>
       <xs:extension base="mb:AbstractWidgetBaseXSLType">
         <xs:sequence>
-          <xs:element name="showPx" type="xs:boolean" minOccurs="0"/>
-          <xs:element name="showXY" type="xs:boolean" minOccurs="0"/>
-          <xs:element name="showLatLong" type="xs:boolean" minOccurs="0"/>
-          <xs:element name="showDMS" type="xs:boolean" minOccurs="0"/>
-          <xs:element name="showDM" type="xs:boolean" minOccurs="0"/>
-          <xs:element name="showMGRS" type="xs:boolean" minOccurs="0"/>
-          <xs:element name="precision" type="xs:integer" minOccurs="0"/>
+          <xs:element name="showPx" type="xs:boolean" minOccurs="0" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>display coordinates in pixel coordinates</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="showXY" type="xs:boolean" minOccurs="0" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>display coordinates in XY coordinates</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="showLatLong" type="xs:boolean" minOccurs="0" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>display coordinates in latitute/longitude coordinates (default)</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="showDMS" type="xs:boolean" minOccurs="0" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>display coordinates in latitute/longitude in DD MM SS.S format (degree, minutes, seconds)</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="showDM" type="xs:boolean" minOccurs="0" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>display coordinates in latitute/longitude in DD MM.MMMM format (degree, minutes)</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="showMGRS" type="xs:boolean" minOccurs="0" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>display coordinates in Military Grid Reference System</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="precision" type="xs:integer" minOccurs="0" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>optional precision of the coordinates (default = 1)</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="showPanButton" type="xs:boolean" minOccurs="0" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>show a pan button (default is false)</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="showZoomButton" type="xs:boolean" minOccurs="0" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>show a zoom button (default is false)</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="zoomLevel" type="xs:integer" minOccurs="0" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>level for zooming</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="zoomScale" type="xs:integer" minOccurs="0" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>scale for zooming (not used, if level was defined)</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="panButtonSrc" type="xs:string" minOccurs="0" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>partial skin path to graphic source of the pan button (necessary if showPanButton is true)</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="zoomButtonSrc" type="xs:string" minOccurs="0" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>partial skin path to graphic source of the zoom button (necessary if showPanButton is true)</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -575,7 +634,7 @@
               <xs:documentation>The model which will be populated with the server response from a transaction request.</xs:documentation>
             </xs:annotation>
           </xs:element>
-          <xs:element name="appendOnEdit" type="xs:string">
+          <xs:element name="appendOnEdit" type="xs:string" minOccurs="0">
             <xs:annotation>
               <xs:documentation>Should a new empty feature be appended to the model after creating one? Default is true.</xs:documentation>
             </xs:annotation>
@@ -622,6 +681,11 @@
           <xs:element name="controller" type="xs:string" minOccurs="0">
             <xs:annotation>
               <xs:documentation>Controller that handles the request. This has to point to the id of a WebServiceRequest tool.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="tolerance" type="xs:integer" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Tolerance in pixels around the click point for WFS:GetFeature. Default is 3.</xs:documentation>
             </xs:annotation>
           </xs:element>
         </xs:sequence>
@@ -747,9 +811,9 @@
           <xs:element name="opacity" type="xs:boolean" minOccurs="0"/>
           <xs:element name="legendImageEnable" type="mb:urlPathType" minOccurs="0"/>
           <xs:element name="legendImageDisable" type="mb:urlPathType" minOccurs="0"/>
-          <xs:element name="moveUpImage" type="mb:urlPathType"/>
-          <xs:element name="moveDownImage" type="mb:urlPathType"/>
-          <xs:element name="deleteImage" type="mb:urlPathType"/>
+          <xs:element name="moveUpImage" type="mb:urlPathType" minOccurs="0"/>
+          <xs:element name="moveDownImage" type="mb:urlPathType"  minOccurs="0"/>
+          <xs:element name="deleteImage" type="mb:urlPathType"  minOccurs="0"/>
           <xs:element name="title" type="xs:string" minOccurs="0"/>
         </xs:sequence>
       </xs:extension>
@@ -831,6 +895,11 @@
           <xs:element name="resolutions" type="xs:string" minOccurs="0">
             <xs:annotation>
               <xs:documentation>Set a list of fixed resolutions for OL manually.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="scales" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Set a list of fixed scales for OL manually. This overrides resolutions!</xs:documentation>
             </xs:annotation>
           </xs:element>
           <xs:element name="fixedSize" type="xs:boolean" minOccurs="0">
@@ -1019,11 +1088,7 @@
       <xs:documentation>After this button is selected, the Web Map Context is saved on the users local computer.</xs:documentation>
     </xs:annotation>
     <xs:complexContent>
-      <xs:extension base="mb:AbstractButtonBaseType">
-        <xs:sequence>
-          <xs:element name="popupWindowName" type="xs:string"/>
-        </xs:sequence>
-      </xs:extension>
+      <xs:extension base="mb:AbstractButtonBaseType"/>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="SaveModelType">
@@ -1139,9 +1204,9 @@
               <xs:documentation>The base URL of the Web Service that will be queried.</xs:documentation>
             </xs:annotation>
           </xs:element>
-          <xs:element name="webServiceSrs" type="xs:string">
+          <xs:element name="webServiceSrs" type="xs:string" minOccurs="0">
             <xs:annotation>
-              <xs:documentation>The SRS to be used when requesting features from the server.</xs:documentation>
+              <xs:documentation>The SRS to be used when requesting features from the server. Optional, by default EPSG:4326 is used.</xs:documentation>
             </xs:annotation>
           </xs:element>
           <xs:element name="typeName" type="xs:string">

@@ -26,16 +26,14 @@
         <LayerControl id="contextLegend">
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
+          <opacity>true</opacity>
           <legendImageEnable>/images/LegendEnable.png</legendImageEnable>
-		  <legendImageDisable>/images/LegendDisable.png</legendImageDisable> 
+          <legendImageDisable>/images/LegendDisable.png</legendImageDisable> 
           <moveUpImage>/images/LayerMoveUpDisable.png</moveUpImage>
           <moveDownImage>/images/LayerMoveDownDisable.png</moveDownImage>
           <deleteImage>/images/LayerRemoveDisable.png</deleteImage>
-          <opacity>true</opacity>
         </LayerControl>
       </widgets>
-      <tools>
-      </tools>
     </Context>
     <Context id="locator">
       <defaultModelUrl>../data/context/locatorMap.xml</defaultModelUrl>
@@ -43,8 +41,7 @@
         <MapPaneOL id="locatorWidget">
           <htmlTagId>locatorMap</htmlTagId>
           <targetModel>mainMap</targetModel>
-          <mapContainerId>locatorContainer</mapContainerId>
-			<fixedSize>true</fixedSize>
+          <fixedSize>true</fixedSize>
         </MapPaneOL>
       </widgets>
       <tools>
@@ -172,8 +169,6 @@
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
           <stylesheet>../../lib/widget/ServiceRegistryList.xsl</stylesheet>
-          <capabilitiesModel>wmsCapTemplate</capabilitiesModel>
-          <serviceType>CgdiMapServices</serviceType>
         </WebServiceForm>
         <Loading2 id="loading1">
 					<htmlTagId>workspace</htmlTagId>
@@ -188,8 +183,6 @@
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
           <stylesheet>../../lib/widget/ServiceRegistryList.xsl</stylesheet>
-          <capabilitiesModel>wfsCapTemplate</capabilitiesModel>
-          <serviceType>CgdiFeatureServices</serviceType>
         </WebServiceForm>
         <Loading2 id="loading4">
 					<htmlTagId>workspace</htmlTagId>
@@ -199,7 +192,6 @@
     </Model>
     <WfsCapabilities id="owsCatSearch">
       <defaultModelUrl>http://devgeo.cciw.ca/cgi-bin/mapserv/owscat?version=1.0.0&amp;service=WFS&amp;request=GetCapabilities</defaultModelUrl>
-      <nodeSelectXpath>/wfs:WFS_Capabilities/wfs:FeatureTypeList/wfs:FeatureType</nodeSelectXpath>
       <models>
         <OwsCatResources id="owsCatResults">
           <method>get</method>
@@ -239,8 +231,6 @@
           </widgets>
         </Model>
       </models>
-      <widgets>
-      </widgets>
       <tools>
         <WebServiceRequest id="owsCatGetFeature">
           <targetModel>owsCatResults</targetModel>
@@ -250,6 +240,7 @@
           <debug/>
         </WebServiceRequest>
       </tools>
+      <nodeSelectXpath>/wfs:WFS_Capabilities/wfs:FeatureTypeList/wfs:FeatureType</nodeSelectXpath>
     </WfsCapabilities>
   </models>
   <widgets>
@@ -305,7 +296,6 @@
       <targetModel>mainMap</targetModel>
       <class>Button</class>
       <disabledSrc>/images/SaveDisable.png</disabledSrc>
-      <popupWindowName>modelXML</popupWindowName>
     </Save>
     <Widget id="help">
       <htmlTagId>workspace</htmlTagId>

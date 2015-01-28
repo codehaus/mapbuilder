@@ -18,7 +18,5 @@
       </widgets>
     </OwsContext>
   </models>
-  <widgets>
-  </widgets>
   <skinDir>../../lib/skin/default</skinDir>
 </MapbuilderConfig>
