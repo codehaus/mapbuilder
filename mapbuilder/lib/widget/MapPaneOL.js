@@ -68,6 +68,139 @@ function MapPaneOL(widgetNode, model) {
   this.tileSize = parseInt(this.getProperty("mb:tileSize", 256));
   
   /**
+   * For WMTS layers: Request encoding.  Can be "REST" or "KVP".  Default is "KVP".
+   */
+  this.requestEncoding = this.getProperty("mb:requestEncoding", "KVP");
+  
+  /** 
+   * For WMTS layers: One of the advertised matrix set identifiers.  Must be provided.
+   */
+  this.matrixSet = this.getProperty("mb:matrixSet", null);
+
+  /** 
+   * For WMTS layers: One of the advertised layer styles.  Must be provided.
+   */
+  this.style = this.getProperty("mb:style", null);
+  
+  /**
+   * For WMTS layers: The top-left corner of the tile matrix in map 
+   * units.  If the tile origin for each matrix in a set is different,
+   * the <matrixIds> should include a topLeftCorner property.  If
+   * not provided, the tile origin will default to the top left corner
+   * of the layer <maxExtent>.
+   */
+  this.tileOrigin = this.getProperty("mb:tileOrigin");
+  this.tileOrigin = this.tileOrigin ? this.tileOrigin.split(",") : null;
+  if (this.tileOrigin) {
+    this.tileOrigin = (this.tileOrigin) ? new OpenLayers.LonLat(parseFloat(this.tileOrigin[0]), parseFloat(this.tileOrigin[1])) : null;
+  }
+  
+  /**
+	 * Sets the restricted extent of the map. This is not the initial extent
+	 * when the map is loaded (that's the bounding box from the context) or the
+	 * <maxExtent>, but it is restriction of the maximum extent that the user
+	 * can navigate around in.
+	 * 
+	 * For WMTS layers: The full extent of the tile set. If not supplied, the
+	 * layer's <maxExtent> property will be used.
+	 * 
+	 * Note that this may also be a part (subset) of the full extent of the
+	 * servers' tile set, causing a restriction to the given bounds.
+	 */
+  this.tileFullExtent = this.getProperty("mb:tileFullExtent");
+  this.tileFullExtent = this.tileFullExtent ? this.tileFullExtent.split(",") : null;
+  if (this.tileFullExtent) {
+    this.tileFullExtent = (this.tileFullExtent) ? new OpenLayers.Bounds(parseFloat(this.tileFullExtent[0]), parseFloat(this.tileFullExtent[1]), parseFloat(this.tileFullExtent[2]), parseFloat(this.tileFullExtent[3])) : null;
+  }
+  
+
+  /**
+   * For WMTS layers: For REST request encoding, an image format suffix must be 
+   * included in the request.  If not provided, the suffix will be derived
+   * from the <format> property.
+   */
+  this.formatSuffix = this.getProperty("mb:formatSuffix", null);
+
+  /**
+   * For WMTS layers: A list of tile matrix identifiers.  If not provided, the matrix
+   *     identifiers will be assumed to be integers corresponding to the 
+   *     map zoom level.  If a list of strings is provided, each item should
+   *     be the matrix identifier that corresponds to the map zoom level.
+   *     Additionally, a list of objects can be provided.  Each object should
+   *     describe the matrix as presented in the WMTS capabilities.  These
+   *     objects should have the properties shown below.
+   * 
+   * Matrix properties:
+   * identifier - {String} The matrix identifier (required).
+   * scaleDenominator - {Number} The matrix scale denominator.
+   * topLeftCorner - {<OpenLayers.LonLat>} The top left corner of the 
+   *     matrix.  Must be provided if different than the layer <tileOrigin>.
+   * tileWidth - {Number} The tile width for the matrix.  Must be provided 
+   *     if different than the width given in the layer <tileSize>.
+   * tileHeight - {Number} The tile height for the matrix.  Must be provided 
+   *     if different than the height given in the layer <tileSize>.
+   */
+  this.matrixIds = this.getProperty("mb:matrixIds", null);
+  
+  /**
+   * For WMTS layers: For RESTful request encoding, extra dimensions may be specified.
+   * Items in this list should be property names in the <params> object.
+   * Values of extra dimensions will be determined from the corresponding
+   * values in the <params> object.
+   */
+  this.dimensions = this.getProperty("mb:dimensions", null);
+  
+  /**
+   * For WMTS layers: Extra parameters to include in tile requests.  For KVP 
+   * <requestEncoding>, these properties will be encoded in the request 
+   * query string.  For REST <requestEncoding>, these properties will
+   * become part of the request path, with order determined by the 
+   * <dimensions> list.
+   */
+  this.params = this.getProperty("mb:params", null);
+  
+  /**
+   * APIProperty: zoomOffset
+   * {Number} If your cache has more levels than you want to provide
+   *     access to with this layer, supply a zoomOffset.  This zoom offset
+   *     is added to the current map zoom level to determine the level
+   *     for a requested tile.  For example, if you supply a zoomOffset
+   *     of 3, when the map is at the zoom 0, tiles will be requested from
+   *     level 3 of your cache.  Default is 0 (assumes cache level and map
+   *     zoom are equivalent).  Additionally, if this layer is to be used
+   *     as an overlay and the cache has fewer zoom levels than the base
+   *     layer, you can supply a negative zoomOffset.  For example, if a
+   *     map zoom level of 1 corresponds to your cache level zero, you would
+   *     supply a -1 zoomOffset (and set the maxResolution of the layer
+   *     appropriately).  The zoomOffset value has no effect if complete
+   *     matrix definitions (including scaleDenominator) are supplied in
+   *     the <matrixIds> property.  Defaults to 0 (no zoom offset).
+   */
+  this.zoomOffset = parseInt(this.getProperty("mb:zoomOffset", 0));
+
+  /**
+   * APIProperty: serverResolutions
+   * {Array} A list of all resolutions available on the server.  Only set this
+   *     property if the map resolutions differ from the server. This
+   *     property serves two purposes. (a) <serverResolutions> can include
+   *     resolutions that the server supports and that you don't want to
+   *     provide with this layer; you can also look at <zoomOffset>, which is
+   *     an alternative to <serverResolutions> for that specific purpose.
+   *     (b) The map can work with resolutions that aren't supported by
+   *     the server, i.e. that aren't in <serverResolutions>. When the
+   *     map is displayed in such a resolution data for the closest
+   *     server-supported resolution is loaded and the layer div is
+   *     stretched as necessary.
+   */
+  this.serverResolutions = this.getProperty("mb:serverResolutions");
+  this.serverResolutions = this.serverResolutions ? this.serverResolutions.split(",") : null;
+  if (this.serverResolutions) {
+    for (var r=0; r<this.serverResolutions.length; r++) {
+    	this.serverResolutions[r] = parseFloat(this.serverResolutions[r]);
+    }
+  }
+  
+  /**
    * For WMS on top of Google Maps you need to reproject the WMS image. This will stretch
    * the WMS images to fit the odd sized google tiles. Default is false
    */
@@ -230,6 +363,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
         units: units,
         fractionalZoom: true,
         maxExtent: maxExtent,
+        restrictedExtent: objRef.tileFullExtent,
         maxResolution: maxResolution,
         minResolution: minResolution,
         resolutions: resolutions,
@@ -281,7 +415,12 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
       if(tileSize) objRef.tileSize = parseInt(tileSize.nodeValue);
       //check if there's a format defined for the BaseLayer
       var format = baseLayerNode.selectSingleNode("ows:TileSet/ows:Format");
-      if(format) format = format.nodeValue;
+      if (format) {
+        format = format.nodeValue;
+      } else {
+        // if no ows:TileSet with a ows:Format is given, use wmc:FormatList/wms:Format
+        format = Mapbuilder.getProperty(baseLayerNode, "wmc:FormatList/wmc:Format");
+      }
       
       //Initialising the baseLayer
       // Test service of the baseLayer
@@ -344,6 +483,34 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
           objRef.model.map.fractionalZoom = false;
         break;
     
+        // WMTS Layer
+        case "WMTS":
+        case "OGC:WMTS":
+          // set all properties of OpenLayers.Layer.WMTS
+          baseLayerOptions.name = title;
+          baseLayerOptions.isBaseLayer = true;
+          baseLayerOptions.requestEncoding = objRef.requestEncoding;
+          baseLayerOptions.url = href; // The base URL or request URL template for the WMTS service.
+          baseLayerOptions.layer = baseLayerName; // The layer identifier advertised by the WMTS service
+          baseLayerOptions.matrixSet = objRef.matrixSet;
+          baseLayerOptions.style = objRef.style;
+          baseLayerOptions.format = format; // The image MIME type
+          baseLayerOptions.tileOrigin = objRef.tileOrigin;
+          baseLayerOptions.tileFullExtent = objRef.tileFullExtent;
+          baseLayerOptions.formatSuffix = objRef.formatSuffix;
+          baseLayerOptions.matrixIds = objRef.matrixIds;
+          baseLayerOptions.dimensions = objRef.dimensions;
+          baseLayerOptions.params = objRef.params;
+          baseLayerOptions.zoomOffset = objRef.zoomOffset;
+          baseLayerOptions.serverResolutions = objRef.serverResolutions;
+
+          // set some additional properties from OpenLayers.Layer.Grid and OpenLayers.Layer
+          baseLayerOptions.transitionEffect = objRef.transitionEffect;
+          
+          baseLayer= new OpenLayers.Layer.WMTS(baseLayerOptions);
+          objRef.model.map.fractionalZoom = false;
+        break;
+
         case "GMAP":
         case "Google":       
           if(maxExtent) baseLayerOptions.maxExtent=maxExtent;
@@ -485,6 +652,10 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     objRef.addLayer(objRef,layers[i]);
   }
   var bbox=objRef.model.getBoundingBox();
+  if (objRef.model.map.restrictedExtent) {
+    // if restrictedExtent given, start with it instead of the maxextent (bbox)
+    bbox = objRef.model.map.restrictedExtent.toArray();
+  }
 
   // set objRef as attribute of the OL map, so we have a reference
   // to MapPaneOL available when handling OpenLayers events.
@@ -858,6 +1029,42 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
         },
         layerOptions
       );
+      objRef.model.map.fractionalZoom = false;
+    break;
+
+    // WMTS Layer
+    case "WMTS":
+    case "OGC:WMTS":
+      if(!objRef.model.map.baseLayer){
+        layerOptions.isBaseLayer=true;
+      }
+      else {
+        //TBD what if we have layers with different projections in the context?
+        layerOptions.reproject=objRef.imageReproject;
+        layerOptions.isBaseLayer=false;
+      }
+      
+      // set all properties of OpenLayers.Layer.WMTS
+      layerOptions.name = layerName;
+      layerOptions.requestEncoding = objRef.requestEncoding;
+      layerOptions.url = href; // The base URL or request URL template for the WMTS service.
+      layerOptions.layer = layerName; // The layer identifier advertised by the WMTS service
+      layerOptions.matrixSet = objRef.matrixSet;
+      layerOptions.style = objRef.style;
+      layerOptions.format = format; // The image MIME type
+      layerOptions.tileOrigin = objRef.tileOrigin;
+      layerOptions.tileFullExtent = objRef.tileFullExtent;
+      layerOptions.formatSuffix = objRef.formatSuffix;
+      layerOptions.matrixIds = objRef.matrixIds;
+      layerOptions.dimensions = objRef.dimensions;
+      layerOptions.params = objRef.params;
+      layerOptions.zoomOffset = objRef.zoomOffset;
+      layerOptions.serverResolutions = objRef.serverResolutions;
+
+      // set some additional properties from OpenLayers.Layer.Grid and OpenLayers.Layer
+      layerOptions.transitionEffect = objRef.transitionEffect;
+      
+      objRef.oLlayers[layerId]= new OpenLayers.Layer.WMTS(layerOptions);
       objRef.model.map.fractionalZoom = false;
     break;
 

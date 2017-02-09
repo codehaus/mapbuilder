@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<MapbuilderConfig version="0.2.1" id="simpleTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
+  <models>
+    <OwsContext id="mainMap">
+      <defaultModelUrl>../data/context/OwcBasemap.xml</defaultModelUrl>
+      <widgets>
+        <MapPaneOL id="mainMapWidget">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <resolutions>1222.9924525644,611.4962262807999,305.74811314039994,152.87405657047998,76.43702828523999,38.21851414248,19.109257071295996,9.554628535647998,4.777314267823999,2.3886571339119995,1.1943285669559998,0.5971642834779999,0.29858214174039993,0.14929107086936</resolutions>
+          <transitionEffect>true</transitionEffect>
+          <displayOutsideMaxExtent>false</displayOutsideMaxExtent>
+          <requestEncoding>REST</requestEncoding>
+          <matrixSet>google3857</matrixSet>
+          <style>normal</style>
+          <tileFullExtent>977650,5838030,1913530,6281290</tileFullExtent>
+          <serverResolutions>156543.03392811998,78271.51696419998,39135.758481959994,19567.879241008,9783.939620504,4891.969810252,2445.984905126,1222.9924525644,611.4962262807999,305.74811314039994,152.87405657047998,76.43702828523999,38.21851414248,19.109257071295996,9.554628535647998,4.777314267823999,2.3886571339119995,1.1943285669559998,0.5971642834779999,0.29858214174039993,0.14929107086936,0.07464553542435169</serverResolutions>
+        </MapPaneOL>
+        <PanZoomBar id="panZoomBar"/>
+        <OverviewMap id="overviewMap">
+          <layers>
+            <layerName>overview</layerName>
+          </layers>
+        </OverviewMap>
+      </widgets>
+    </OwsContext>
+  </models>
+  <widgets>
+    <ExampleList id="exampleList"><!-- this is the widget that draws the example menu -->
+      <scriptFile>../ExampleList.js</scriptFile>
+      <stylesheet>../ExampleList.xsl</stylesheet>
+    </ExampleList>
+  </widgets>
+  <skinDir>../../lib/skin/default</skinDir>
+</MapbuilderConfig>
