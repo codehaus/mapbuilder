@@ -486,31 +486,28 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
         // WMTS Layer
         case "WMTS":
         case "OGC:WMTS":
-          var wmtsConfig = {};
-          
           // set all properties of OpenLayers.Layer.WMTS
-          wmtsConfig.name = title;
-          wmtsConfig.isBaseLayer = true;
-          wmtsConfig.requestEncoding = objRef.requestEncoding;
-          wmtsConfig.url = href; // The base URL or request URL template for the WMTS service.
-          wmtsConfig.layer = baseLayerName; // The layer identifier advertised by the WMTS service
-          wmtsConfig.matrixSet = objRef.matrixSet;
-          wmtsConfig.style = objRef.style;
-          wmtsConfig.format = format; // The image MIME type
-          wmtsConfig.tileOrigin = objRef.tileOrigin;
-          wmtsConfig.tileFullExtent = objRef.tileFullExtent;
-          wmtsConfig.formatSuffix = objRef.formatSuffix;
-          wmtsConfig.matrixIds = objRef.matrixIds;
-          wmtsConfig.dimensions = objRef.dimensions;
-          wmtsConfig.params = objRef.params;
-          wmtsConfig.zoomOffset = objRef.zoomOffset;
-          wmtsConfig.serverResolutions = objRef.serverResolutions;
+          baseLayerOptions.name = title;
+          baseLayerOptions.isBaseLayer = true;
+          baseLayerOptions.requestEncoding = objRef.requestEncoding;
+          baseLayerOptions.url = href; // The base URL or request URL template for the WMTS service.
+          baseLayerOptions.layer = baseLayerName; // The layer identifier advertised by the WMTS service
+          baseLayerOptions.matrixSet = objRef.matrixSet;
+          baseLayerOptions.style = objRef.style;
+          baseLayerOptions.format = format; // The image MIME type
+          baseLayerOptions.tileOrigin = objRef.tileOrigin;
+          baseLayerOptions.tileFullExtent = objRef.tileFullExtent;
+          baseLayerOptions.formatSuffix = objRef.formatSuffix;
+          baseLayerOptions.matrixIds = objRef.matrixIds;
+          baseLayerOptions.dimensions = objRef.dimensions;
+          baseLayerOptions.params = objRef.params;
+          baseLayerOptions.zoomOffset = objRef.zoomOffset;
+          baseLayerOptions.serverResolutions = objRef.serverResolutions;
 
           // set some additional properties from OpenLayers.Layer.Grid and OpenLayers.Layer
-          wmtsConfig.displayOutsideMaxExtent = objRef.displayOutsideMaxExtent;
-          wmtsConfig.transitionEffect = objRef.transitionEffect;
+          baseLayerOptions.transitionEffect = objRef.transitionEffect;
           
-          baseLayer= new OpenLayers.Layer.WMTS(wmtsConfig);
+          baseLayer= new OpenLayers.Layer.WMTS(baseLayerOptions);
           objRef.model.map.fractionalZoom = false;
         break;
 
@@ -1032,6 +1029,42 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
         },
         layerOptions
       );
+      objRef.model.map.fractionalZoom = false;
+    break;
+
+    // WMTS Layer
+    case "WMTS":
+    case "OGC:WMTS":
+      if(!objRef.model.map.baseLayer){
+        layerOptions.isBaseLayer=true;
+      }
+      else {
+        //TBD what if we have layers with different projections in the context?
+        layerOptions.reproject=objRef.imageReproject;
+        layerOptions.isBaseLayer=false;
+      }
+      
+      // set all properties of OpenLayers.Layer.WMTS
+      layerOptions.name = layerName;
+      layerOptions.requestEncoding = objRef.requestEncoding;
+      layerOptions.url = href; // The base URL or request URL template for the WMTS service.
+      layerOptions.layer = layerName; // The layer identifier advertised by the WMTS service
+      layerOptions.matrixSet = objRef.matrixSet;
+      layerOptions.style = objRef.style;
+      layerOptions.format = format; // The image MIME type
+      layerOptions.tileOrigin = objRef.tileOrigin;
+      layerOptions.tileFullExtent = objRef.tileFullExtent;
+      layerOptions.formatSuffix = objRef.formatSuffix;
+      layerOptions.matrixIds = objRef.matrixIds;
+      layerOptions.dimensions = objRef.dimensions;
+      layerOptions.params = objRef.params;
+      layerOptions.zoomOffset = objRef.zoomOffset;
+      layerOptions.serverResolutions = objRef.serverResolutions;
+
+      // set some additional properties from OpenLayers.Layer.Grid and OpenLayers.Layer
+      layerOptions.transitionEffect = objRef.transitionEffect;
+      
+      objRef.oLlayers[layerId]= new OpenLayers.Layer.WMTS(layerOptions);
       objRef.model.map.fractionalZoom = false;
     break;
 

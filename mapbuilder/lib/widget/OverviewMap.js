@@ -183,6 +183,40 @@ OverviewMap.prototype.getClonedLayer = function(layer, isBaseLayer) {
         styles: layer.params.STYLES
       }, layerOptions);
   }
+  else if (layer instanceof OpenLayers.Layer.WMTS) {
+    // make a wmts layer, with ratio 1
+    var layerOptions = {
+      units: layer.units,
+      projection: layer.projection,
+      maxExtent: layer.maxExtent,
+      maxResolution: "auto",
+      ratio: 1,
+      isBaseLayer: isBaseLayer
+    };
+      
+    // set all properties of OpenLayers.Layer.WMTS
+    layerOptions.name = layer.name;
+    layerOptions.requestEncoding = layer.requestEncoding;
+    layerOptions.url = layer.url;
+    layerOptions.layer = layer.name;
+    layerOptions.matrixSet = layer.matrixSet;
+    layerOptions.style = layer.style;
+    layerOptions.format = layer.format;
+    layerOptions.tileOrigin = layer.tileOrigin;
+    layerOptions.tileFullExtent = layer.tileFullExtent;
+    layerOptions.formatSuffix = layer.formatSuffix;
+    layerOptions.matrixIds = layer.matrixIds;
+    layerOptions.dimensions = layer.dimensions;
+    layerOptions.params = layer.params;
+    layerOptions.zoomOffset = layer.zoomOffset;
+    layerOptions.serverResolutions = layer.serverResolutions;
+
+    // set some additional properties from OpenLayers.Layer.Grid and OpenLayers.Layer
+    layerOptions.displayOutsideMaxExtent = layer.displayOutsideMaxExtent;
+    layerOptions.transitionEffect = layer.transitionEffect;
+
+    return new OpenLayers.Layer.WMTS(layerOptions);
+  }
   else {
     // take the layer as-is and clone it
     var clonedLayer = layer.clone();
