@@ -16,16 +16,42 @@
   </General>
 
   <ResourceList>
-    <ows:BaseLayer queryable="0" hidden="0" id="geolandbasemap">
+    <ows:BaseLayer queryable="0" hidden="0" id="bmaporthofoto30cm">
+      <Server service="OGC:WMTS" version="1.0.0" title="OGC:WMTS">
+        <OnlineResource xlink:type="simple" xlink:href="https://maps.wien.gv.at/basemap/bmaporthofoto30cm/{Style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpeg"/>
+      </Server>
+      <Name>bmaporthofoto30cm</Name>
+      <Title>Geoland Basemap colored aerial image of basemap.at</Title>
+      <SRS>EPSG:3857</SRS>
+      <FormatList>
+        <Format>image/jpeg</Format>
+      </FormatList>
+    </ows:BaseLayer>
+
+    <Layer queryable="0" hidden="0" id="bmapoverlay">
+      <Server service="OGC:WMTS" version="1.0.0" title="OGC:WMTS">
+        <OnlineResource xlink:type="simple" xlink:href="https://maps.wien.gv.at/basemap/bmapoverlay/{Style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png"/>
+      </Server>
+      <Name>bmapoverlay</Name>
+      <Title>transparent labels overlay of basemap.at</Title>
+      <SRS>EPSG:3857</SRS>
+      <BoundingBox SRS="EPSG:3857" minx="977650" miny="5838030" maxx="1913530" maxy="6281290"/>
+      <FormatList>
+        <Format>image/png</Format>
+      </FormatList>
+    </Layer>
+
+    <Layer queryable="0" hidden="1" id="overview">
       <Server service="OGC:WMTS" version="1.0.0" title="OGC:WMTS">
         <OnlineResource xlink:type="simple" xlink:href="https://maps.wien.gv.at/basemap/geolandbasemap/{Style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png"/>
       </Server>
       <Name>geolandbasemap</Name>
-      <Title>Background map of basemap.at</Title>
+      <Title>colored basemap of Austria of basemap.at</Title>
       <SRS>EPSG:3857</SRS>
+      <BoundingBox SRS="EPSG:3857" minx="977650" miny="5838030" maxx="1913530" maxy="6281290"/>
       <FormatList>
         <Format>image/png</Format>
       </FormatList>
-    </ows:BaseLayer>
+    </Layer>
   </ResourceList>
 </OWSContext>
