@@ -92,7 +92,7 @@
     <xs:sequence>
       <xs:element name="htmlTagId" type="xs:string" minOccurs="0">
         <xs:annotation>
-          <xs:documentation>the ID of the HTML element in the web page where this widget's ouput should be placed.  Optional, if present, this value will be used instead of the widget's ID attribute.</xs:documentation>
+          <xs:documentation>the ID of the HTML element in the web page where this widget's output should be placed.  Optional, if present, this value will be used instead of the widget's ID attribute.</xs:documentation>
         </xs:annotation>
       </xs:element>
       <xs:element name="outputNodeId" type="xs:string" minOccurs="0">
@@ -947,6 +947,61 @@
               <xs:documentation>Should layers be reprojected? Mainly used in combination with google map layers. Default is false.</xs:documentation>
             </xs:annotation>
           </xs:element>
+          <xs:element name="requestEncoding" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>For WMTS layers: Request encoding.  Can be "REST" or "KVP".  Default is "KVP".</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="matrixSet" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>For WMTS layers: One of the advertised matrix set identifiers. Must be provided.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="style" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>For WMTS layers: One of the advertised layer styles.  Must be provided.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="tileOrigin" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Sets the restricted extent of the map. This is not the initial extent when the map is loaded (that's the bounding box from the context) or the maxExtent, but it is restriction of the maximum extent that the user can navigate around in. For WMTS layers: The full extent of the tile set. If not supplied, the layer's maxExtent property will be used. Note that this may also be a part (subset) of the full extent of the servers' tile set, causing a restriction to the given bounds.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="tileFullExtent" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>For WMTS layers: The full extent of the tile set. If not supplied, the layer's maxExtent property will be used.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="formatSuffix" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>For WMTS layers: For REST request encoding, an image format suffix must be included in the request. If not provided, the suffix will be derived from the format property.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="matrixIds" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>For WMTS layers: A list of tile matrix identifiers.  If not provided, the matrix identifiers will be assumed to be integers corresponding to the map zoom level. If a list of strings is provided, each item should be the matrix identifier that corresponds to the map zoom level. Additionally, a list of objects can be provided. Each object should describe the matrix as presented in the WMTS capabilities.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="dimensions" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>For WMTS layers: For RESTful request encoding, extra dimensions may be specified. Items in this list should be property names in the params object. Values of extra dimensions will be determined from the corresponding values in the params object.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="params" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>For WMTS layers: Extra parameters to include in tile requests. For KVP value of property requestEncoding, these properties will be encoded in the request query string. For REST value of property requestEncoding, these properties will become part of the request path, with order determined by the dimensions list.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="zoomOffset" type="xs:int" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>If your cache has more levels than you want to provide access to with this layer, supply a zoomOffset. This zoom offset is added to the current map zoom level to determine the level for a requested tile. For example, if you supply a zoomOffset of 3, when the map is at the zoom 0, tiles will be requested from level 3 of your cache. Default is 0 (assumes cache level and map zoom are equivalent). Additionally, if this layer is to be used as an overlay and the cache has fewer zoom levels than the base layer, you can supply a negative zoomOffset. For example, if a map zoom level of 1 corresponds to your cache level zero, you would supply a -1 zoomOffset (and set the maxResolution of the layer appropriately). The zoomOffset value has no effect if complete matrix definitions (including scaleDenominator) are supplied in the matrixIds property. Defaults to 0 (no zoom offset).</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="serverResolutions" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>A list of all resolutions available on the server. Only set this property if the map resolutions differ from the server. This property serves two purposes. (a) serverResolutions can include resolutions that the server supports and that you don't want to provide with this layer; you can also look at property zoomOffset, which is an alternative to serverResolutions for that specific purpose. (b) The map can work with resolutions that aren't supported by the server, i.e. that aren't in serverResolutions. When the map is displayed in such a resolution data for the closest server-supported resolution is loaded and the layer div is stretched as necessary.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -976,7 +1031,15 @@
       <xs:documentation>A widget to read and write the map scale value</xs:documentation>
     </xs:annotation>
     <xs:complexContent>
-      <xs:extension base="mb:AbstractWidgetBaseXSLType"/>
+      <xs:extension base="mb:AbstractWidgetBaseXSLType">
+        <xs:sequence>
+          <xs:element name="mapScaleLabel" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>The label of the map scale; optional. Default is: scale 1:</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="ModelStatusType">
