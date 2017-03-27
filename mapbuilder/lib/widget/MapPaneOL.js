@@ -655,6 +655,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
   if (objRef.model.map.restrictedExtent) {
     // if restrictedExtent given, start with it instead of the maxextent (bbox)
     bbox = objRef.model.map.restrictedExtent.toArray();
+    objRef.model.setBoundingBox(bbox);
   }
 
   // set objRef as attribute of the OL map, so we have a reference
