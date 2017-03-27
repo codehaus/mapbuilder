@@ -38,6 +38,13 @@
 						Enhanced Map Viewer
 					</a>
 				</li>
+
+				<li>
+					<a href="../wmts/index.html"
+						title="WMTS map demo">
+						WMTS Map Viewer
+					</a>
+				</li>
 			</ul>
 			<h2>Complex</h2>
 			<ul>

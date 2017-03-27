@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<OWSContext version="0.0.13" id="ows-context-tie" 
+  xmlns="http://www.opengis.net/context" 
+  xmlns:xlink="http://www.w3.org/1999/xlink" 
+  xmlns:ows="http://www.opengis.net/ows">
+
+  <General>
+    <Window width="600" height="300"/>
+    <ows:BoundingBox crs="EPSG:3857">
+      <!-- general extent for Google Web Mercator (EPSG:3857), this is restricted by property tileFullExtent -->
+      <ows:LowerCorner>-20037508.34 -20037508.34</ows:LowerCorner>
+      <ows:UpperCorner>20037508.34 20037508.34</ows:UpperCorner>
+    </ows:BoundingBox>
+    <Title>Basemap.at</Title>
+    <Abstract>Basemap.at covering Austria</Abstract>
+  </General>
+
+  <ResourceList>
+    <ows:BaseLayer queryable="0" hidden="0" id="bmaporthofoto30cm">
+      <Server service="OGC:WMTS" version="1.0.0" title="OGC:WMTS">
+        <OnlineResource xlink:type="simple" xlink:href="https://maps.wien.gv.at/basemap/bmaporthofoto30cm/{Style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpeg"/>
+      </Server>
+      <Name>bmaporthofoto30cm</Name>
+      <Title>Geoland Basemap colored aerial image of basemap.at</Title>
+      <SRS>EPSG:3857</SRS>
+      <FormatList>
+        <Format>image/jpeg</Format>
+      </FormatList>
+    </ows:BaseLayer>
+
+    <Layer queryable="0" hidden="0" id="bmapoverlay">
+      <Server service="OGC:WMTS" version="1.0.0" title="OGC:WMTS">
+        <OnlineResource xlink:type="simple" xlink:href="https://maps.wien.gv.at/basemap/bmapoverlay/{Style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png"/>
+      </Server>
+      <Name>bmapoverlay</Name>
+      <Title>transparent labels overlay of basemap.at</Title>
+      <SRS>EPSG:3857</SRS>
+      <BoundingBox SRS="EPSG:3857" minx="977650" miny="5838030" maxx="1913530" maxy="6281290"/>
+      <FormatList>
+        <Format>image/png</Format>
+      </FormatList>
+    </Layer>
+
+    <Layer queryable="0" hidden="1" id="overview">
+      <Server service="OGC:WMTS" version="1.0.0" title="OGC:WMTS">
+        <OnlineResource xlink:type="simple" xlink:href="https://maps.wien.gv.at/basemap/geolandbasemap/{Style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png"/>
+      </Server>
+      <Name>geolandbasemap</Name>
+      <Title>colored basemap of Austria of basemap.at</Title>
+      <SRS>EPSG:3857</SRS>
+      <BoundingBox SRS="EPSG:3857" minx="977650" miny="5838030" maxx="1913530" maxy="6281290"/>
+      <FormatList>
+        <Format>image/png</Format>
+      </FormatList>
+    </Layer>
+  </ResourceList>
+</OWSContext>
